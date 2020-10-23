@@ -97,7 +97,9 @@ class AdminHome extends StatelessWidget {
           padding: EdgeInsets.only(top: 100, left: 40, right: 40, bottom: 40),
           children: [
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed('/docsearch');
+              },
               child: Container(
                 height: 80.0,
                 color: Colors.transparent,

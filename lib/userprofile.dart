@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class UserProfile extends StatelessWidget {
   @override
@@ -197,11 +198,12 @@ class UserProfile extends StatelessWidget {
               ),
               Container(
                 child: ListView(
-                  padding: EdgeInsets.all(40),
+                  padding:
+                      EdgeInsets.only(top: 30, left: 40, right: 40, bottom: 40),
                   children: [
                     Container(
                       child: Container(
-                        height: 80,
+                        height: 40,
                         child: Text(
                           'Patient Records',
                           style: TextStyle(
@@ -213,7 +215,46 @@ class UserProfile extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed('/medcard');
+                      },
+                      child: Container(
+                        alignment: Alignment.topLeft,
+                        height: 40.0,
+                        color: Colors.transparent,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 3,
+                                style: BorderStyle.solid,
+                              ),
+                              borderRadius: BorderRadius.circular(20.0)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(child: FaIcon(FontAwesomeIcons.plus)),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Center(
+                                child: Text(
+                                  ' Add Record',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                     Container(
                       child: Text('Rec 01'),

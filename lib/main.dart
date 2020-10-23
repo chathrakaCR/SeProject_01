@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:se_project02/AddDisease.dart';
 import 'package:se_project02/adminhome.dart';
+import 'package:se_project02/adddisease.dart';
+import 'package:se_project02/patientsearch.dart';
 import 'package:se_project02/pharmsignup.dart';
 import 'package:se_project02/staffsignup.dart';
 import 'doctorsignup.dart';
@@ -8,6 +11,8 @@ import 'patientsignup.dart';
 import 'pharmsignup.dart';
 import 'userprofile.dart';
 import 'docprofile.dart';
+import 'docsearch.dart';
+import 'adddisease.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,10 +28,13 @@ class MyApp extends StatelessWidget {
         '/patientsignup': (BuildContext context) => new PatientSignup(),
         '/docprofile': (BuildContext context) => new DocProfile(),
         '/main': (BuildContext context) => new MyHomePage(),
-        '/doctorsignup': (BuildContext context) => new DoctorSignup(),
+        '/adminhome': (BuildContext context) => new AdminHome(),
         '/staffsignup': (BuildContext context) => new StaffSignup(),
         '/pharmsignup': (BuildContext context) => new PharmSignup(),
-        '/userprofile': (BuildContext context) => new UserProfile()
+        '/userprofile': (BuildContext context) => new UserProfile(),
+        '/docsearch': (BuildContext context) => new DocSearch(),
+        '/patientsearch': (BuildContext context) => new PatientSearch(),
+        '/adddisease': (BuildContext context) => new AddDisease(),
       },
       home: MyHomePage(),
     );

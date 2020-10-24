@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:se_project02/services/auth.dart';
 
 class AdminHome extends StatelessWidget {
   @override
@@ -63,16 +64,6 @@ class AdminHome extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.add_box),
                 title: Text(
-                  'Add Staff',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onTap: () {
-                  Navigator.of(context).pushNamed('/staffsignup');
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.add_box),
-                title: Text(
                   'Add Pharmacy',
                   style: TextStyle(fontSize: 15),
                 ),
@@ -86,7 +77,8 @@ class AdminHome extends StatelessWidget {
                   'Log Out',
                   style: TextStyle(fontSize: 15),
                 ),
-                onTap: () {
+                onTap: () async {
+                  Auth().logout();
                   Navigator.of(context).pushNamed('/main');
                 },
               )
@@ -134,7 +126,9 @@ class AdminHome extends StatelessWidget {
               height: 50,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed('/patientsearch');
+              },
               child: Container(
                   height: 80.0,
                   color: Colors.transparent,
@@ -155,7 +149,7 @@ class AdminHome extends StatelessWidget {
                         ),
                         Center(
                           child: Text(
-                            ' Search Staff',
+                            ' Search Patient',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
@@ -170,7 +164,7 @@ class AdminHome extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
           tooltip: 'Increment',
-          child: Icon(Icons.add),
+          child: Icon(Icons.phone),
           elevation: 2.0,
           backgroundColor: Colors.green,
         ),
@@ -187,6 +181,17 @@ class AdminHome extends StatelessWidget {
           ],
           selectedItemColor: Colors.green[900],
           backgroundColor: Colors.lightGreen[200],
+          onTap: (value) {
+            switch (value) {
+              case 0:
+                Navigator.of(context).pushNamed('/main');
+                break;
+              case 1:
+                Navigator.of(context).pushNamed('/main');
+                break;
+              default:
+            }
+          },
         ));
   }
 }

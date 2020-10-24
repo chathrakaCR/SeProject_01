@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:se_project02/services/auth.dart';
 
 class UserProfile extends StatelessWidget {
   @override
@@ -14,6 +15,15 @@ class UserProfile extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            actions: [
+              IconButton(
+                  icon: Icon(Icons.logout),
+                  color: Colors.white,
+                  onPressed: () {
+                    Auth().logout();
+                    Navigator.of(context).pushNamed('/main');
+                  }),
+            ],
             backgroundColor: Colors.green,
             bottom: TabBar(
               tabs: [
@@ -219,7 +229,7 @@ class UserProfile extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).pushNamed('/medcard');
+                        Navigator.of(context).pushNamed('/addrecord');
                       },
                       child: Container(
                         alignment: Alignment.topLeft,
@@ -286,6 +296,17 @@ class UserProfile extends StatelessWidget {
             ],
             selectedItemColor: Colors.green[900],
             backgroundColor: Colors.lightGreen[200],
+            onTap: (value) {
+              switch (value) {
+                case 0:
+                  Navigator.of(context).pushNamed('/main');
+                  break;
+                case 1:
+                  Navigator.of(context).pushNamed('/main');
+                  break;
+                default:
+              }
+            },
           )),
     );
   }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class DocProfile extends StatelessWidget {
+class PharmProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Doc Profile',
+          'Pharmacy Profile',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -39,7 +39,7 @@ class DocProfile extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      'DOC NAME',
+                      'PHARMACY NAME',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,

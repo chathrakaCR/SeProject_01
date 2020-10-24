@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:se_project02/AddDisease.dart';
+import 'package:se_project02/addrecord.dart';
 import 'package:se_project02/adminhome.dart';
-import 'package:se_project02/adddisease.dart';
+import 'package:se_project02/models/userModel.dart';
 import 'package:se_project02/patientsearch.dart';
 import 'package:se_project02/pharmsignup.dart';
-import 'package:se_project02/staffsignup.dart';
+import 'package:se_project02/services/auth.dart';
 import 'doctorsignup.dart';
 import 'patientsignup.dart';
 import 'pharmsignup.dart';
 import 'userprofile.dart';
 import 'docprofile.dart';
 import 'docsearch.dart';
-import 'adddisease.dart';
+import 'patientsearch.dart';
+import 'pharmprofile.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,15 +27,16 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/patientsignup': (BuildContext context) => new PatientSignup(),
+        '/doctorsignup': (BuildContext context) => new DoctorSignup(),
         '/docprofile': (BuildContext context) => new DocProfile(),
         '/main': (BuildContext context) => new MyHomePage(),
         '/adminhome': (BuildContext context) => new AdminHome(),
-        '/staffsignup': (BuildContext context) => new StaffSignup(),
+        '/pharmprofile': (BuildContext context) => new PharmProfile(),
         '/pharmsignup': (BuildContext context) => new PharmSignup(),
         '/userprofile': (BuildContext context) => new UserProfile(),
         '/docsearch': (BuildContext context) => new DocSearch(),
         '/patientsearch': (BuildContext context) => new PatientSearch(),
-        '/adddisease': (BuildContext context) => new AddDisease(),
+        '/addrecord': (BuildContext context) => new AddRecord(),
       },
       home: MyHomePage(),
     );
@@ -47,6 +49,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String _email = "";
+  String _password = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               children: [
                 TextField(
+                  onChanged: (value) => _email = value,
                   decoration: InputDecoration(
                       labelText: 'EMAIL',
                       labelStyle: TextStyle(
@@ -91,6 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 SizedBox(height: 20.0),
                 TextField(
+                  onChanged: (value) => _password = value,
                   decoration: InputDecoration(
                       labelText: 'PASSWORD',
                       labelStyle: TextStyle(
@@ -125,8 +131,25 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.green,
                     elevation: 7.0,
                     child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed('/docprofile');
+                      onTap: () async {
+                        UserModel user = await Auth().signIn(_email, _password);
+                        print(user);
+                        switch (user.userType) {
+                          case 'Patient':
+                            Navigator.of(context).pushNamed('/userprofile');
+                            break;
+                          case 'Doctor':
+                            Navigator.of(context).pushNamed('/docprofile');
+                            break;
+                          case 'Admin':
+                            Navigator.of(context).pushNamed('/adminhome');
+                            break;
+                          case 'Pharmacy':
+                            Navigator.of(context).pushNamed('/pharmprofile');
+                            break;
+                          default:
+                        }
+                        //Navigator.of(context).pushNamed('/adminhome');
                       },
                       child: Center(
                         child: Text(

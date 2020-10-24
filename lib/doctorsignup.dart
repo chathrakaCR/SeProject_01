@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:se_project02/models/userModel.dart';
+import 'package:se_project02/services/auth.dart';
 
-class DoctorSignup extends StatelessWidget {
+class DoctorSignup extends StatefulWidget {
+  @override
+  _DoctorSignupState createState() => _DoctorSignupState();
+}
+
+class _DoctorSignupState extends State<DoctorSignup> {
+  final UserModel _user = UserModel();
+  String _password = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +35,7 @@ class DoctorSignup extends StatelessWidget {
               child: Column(
                 children: [
                   TextField(
+                    onChanged: (value) => _user.name = value,
                     decoration: InputDecoration(
                         labelText: 'NAME',
                         labelStyle: TextStyle(
@@ -34,6 +45,7 @@ class DoctorSignup extends StatelessWidget {
                   ),
                   SizedBox(height: 10.0),
                   TextField(
+                    onChanged: (value) => _user.docReg = value,
                     decoration: InputDecoration(
                         labelText: 'Reg No',
                         labelStyle: TextStyle(
@@ -45,6 +57,7 @@ class DoctorSignup extends StatelessWidget {
                     height: 10.0,
                   ),
                   TextField(
+                    onChanged: (value) => _user.telnum = value,
                     decoration: InputDecoration(
                         labelText: 'TEL No',
                         labelStyle: TextStyle(
@@ -54,6 +67,7 @@ class DoctorSignup extends StatelessWidget {
                   ),
                   SizedBox(height: 10.0),
                   TextField(
+                    onChanged: (value) => _user.address = value,
                     decoration: InputDecoration(
                         labelText: 'ADDRESS',
                         labelStyle: TextStyle(
@@ -65,6 +79,7 @@ class DoctorSignup extends StatelessWidget {
                     height: 10.0,
                   ),
                   TextField(
+                    onChanged: (value) => _user.birthday = value,
                     decoration: InputDecoration(
                         labelText: 'BIRTHDAY',
                         labelStyle: TextStyle(
@@ -73,26 +88,68 @@ class DoctorSignup extends StatelessWidget {
                             borderSide: BorderSide(color: Colors.green))),
                   ),
                   SizedBox(
-                    height: 10.0,
+                    height: 30.0,
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                        labelText: 'GENDER',
-                        labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.green))),
+                  Text("GENDER"),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Radio(
+                        value: Gender.Male,
+                        groupValue: _user.gender,
+                        onChanged: (value) => setState(() {
+                          _user.gender = value;
+                        }),
+                      ),
+                      Text(
+                        'Male',
+                      ),
+                      Radio(
+                        value: Gender.Femail,
+                        groupValue: _user.gender,
+                        onChanged: (value) => setState(() {
+                          _user.gender = value;
+                        }),
+                      ),
+                      Text('Female'),
+                    ],
                   ),
                   SizedBox(
                     height: 10.0,
                   ),
                   TextField(
+                    onChanged: (value) => _user.nic = value,
                     decoration: InputDecoration(
                         labelText: 'NIC',
                         labelStyle: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.grey),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.green))),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    onChanged: (value) => _user.email = value,
+                    decoration: InputDecoration(
+                        labelText: 'E-MAIL',
+                        labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.grey),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green))),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    onChanged: (value) => _password = value,
+                    decoration: InputDecoration(
+                        labelText: 'PASSWORD',
+                        labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.grey),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green))),
+                    obscureText: true,
                   ),
                   SizedBox(
                     height: 20.0,
@@ -108,7 +165,16 @@ class DoctorSignup extends StatelessWidget {
                       color: Colors.green,
                       elevation: 7.0,
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+                          _user.userType = "Doctor";
+                          bool res = await Auth().register(_user, _password);
+                          print(res);
+                          if (_user.userType == 'Doctor') {
+                            Navigator.of(context).pushNamed('/docprofile');
+                          } else {
+                            Navigator.of(context).pushNamed('/main');
+                          }
+                        },
                         child: Center(
                           child: Text(
                             'REGISTER',
@@ -123,32 +189,37 @@ class DoctorSignup extends StatelessWidget {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Container(
-                    height: 40.0,
-                    color: Colors.transparent,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/main');
+                    },
                     child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 1.5,
-                            style: BorderStyle.solid,
-                          ),
-                          borderRadius: BorderRadius.circular(60.0)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Center(
-                            child: Text(
-                              ' Go Back',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
+                      height: 40.0,
+                      color: Colors.transparent,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 1.5,
+                              style: BorderStyle.solid,
+                            ),
+                            borderRadius: BorderRadius.circular(60.0)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            Center(
+                              child: Text(
+                                ' Go Back',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

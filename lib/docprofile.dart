@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:se_project02/models/userModel.dart';
+import 'package:get/get.dart';
 
 class DocProfile extends StatelessWidget {
+  final UserModel user = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +42,7 @@ class DocProfile extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      'DOC NAME',
+                      '${user.name}',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -49,14 +52,14 @@ class DocProfile extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      'E-MAIL',
+                      '${user.email}',
                       style: TextStyle(color: Colors.white),
                     ),
                     SizedBox(
                       height: 5,
                     ),
                     Text(
-                      'REG-NUM',
+                      '${user.docReg}',
                       style: TextStyle(color: Colors.white),
                     ),
                     SizedBox(

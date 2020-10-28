@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:se_project02/addrecord.dart';
 import 'package:se_project02/adminhome.dart';
 import 'package:se_project02/models/userModel.dart';
@@ -133,6 +134,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: GestureDetector(
                       onTap: () async {
                         UserModel user = await Auth().signIn(_email, _password);
+                        if (user == null) {
+                          return;
+                        }
+                        Get.put(user);
                         print(user);
                         switch (user.userType) {
                           case 'Patient':

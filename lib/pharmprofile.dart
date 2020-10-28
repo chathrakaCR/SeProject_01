@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:se_project02/models/userModel.dart';
 
 class PharmProfile extends StatelessWidget {
+  final UserModel user = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +43,7 @@ class PharmProfile extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      'PHARMACY NAME',
+                      '${user.name}',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -49,14 +53,14 @@ class PharmProfile extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      'E-MAIL',
+                      '${user.email}',
                       style: TextStyle(color: Colors.white),
                     ),
                     SizedBox(
                       height: 5,
                     ),
                     Text(
-                      'REG-NUM',
+                      '${user.pharmReg}',
                       style: TextStyle(color: Colors.white),
                     ),
                     SizedBox(

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:se_project02/models/userModel.dart';
 import 'package:se_project02/services/auth.dart';
 
 class UserProfile extends StatelessWidget {
+  final UserModel user = Get.find();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -63,7 +66,7 @@ class UserProfile extends StatelessWidget {
                             SizedBox(
                               width: 10,
                             ),
-                            Text('Name: ')
+                            Text('Name: ${user.name}')
                           ],
                         ),
                       ),
@@ -90,7 +93,7 @@ class UserProfile extends StatelessWidget {
                             SizedBox(
                               width: 10,
                             ),
-                            Text('E-Mail: ')
+                            Text('E-Mail: ${user.email}')
                           ],
                         ),
                       ),
@@ -117,7 +120,7 @@ class UserProfile extends StatelessWidget {
                             SizedBox(
                               width: 10,
                             ),
-                            Text('Tel No: ')
+                            Text('Tel No:${user.telnum} ')
                           ],
                         ),
                       ),
@@ -144,7 +147,7 @@ class UserProfile extends StatelessWidget {
                             SizedBox(
                               width: 10,
                             ),
-                            Text('Address: ')
+                            Text('Address: ${user.address}')
                           ],
                         ),
                       ),
@@ -171,7 +174,7 @@ class UserProfile extends StatelessWidget {
                             SizedBox(
                               width: 10,
                             ),
-                            Text('NIC: ')
+                            Text('NIC: ${user.nic} ')
                           ],
                         ),
                       ),
@@ -198,7 +201,8 @@ class UserProfile extends StatelessWidget {
                             SizedBox(
                               width: 10,
                             ),
-                            Text('Gender: ')
+                            Text(
+                                'Gender: ${user.gender == Gender.Male ? 'Male' : 'Female'} ')
                           ],
                         ),
                       ),

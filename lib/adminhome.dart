@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:se_project02/models/userModel.dart';
 import 'package:se_project02/services/auth.dart';
+import 'package:se_project02/services/database.dart';
+import 'package:get/get.dart';
 
-class AdminHome extends StatelessWidget {
+class AdminHome extends StatefulWidget {
+  @override
+  _AdminHomeState createState() => _AdminHomeState();
+}
+
+class _AdminHomeState extends State<AdminHome> {
+  final UserModel user = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,14 +46,14 @@ class AdminHome extends StatelessWidget {
                         height: 10,
                       ),
                       Text(
-                        'Chathraka Ranaweera',
+                        "${user.name}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                             color: Colors.white),
                       ),
                       Text(
-                        'bcuranaweera@gmail.com',
+                        '${user.email}',
                         style: TextStyle(color: Colors.white),
                       )
                     ],

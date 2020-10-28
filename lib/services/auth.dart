@@ -41,4 +41,8 @@ class Auth {
   Future<void> logout() async {
     return await _auth.signOut();
   }
+
+  Future<String> getCurrentUID() async {
+    return (await _auth.currentUser()).uid;
+  }
 }

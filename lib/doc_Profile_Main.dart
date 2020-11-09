@@ -1,32 +1,42 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 import 'package:se_project02/models/userModel.dart';
-import 'package:se_project02/services/auth.dart';
+import 'package:se_project02/routes/router.gr.dart';
 
-class UserProfile extends StatelessWidget {
-  final UserModel user = Get.find();
+class DocProfileMain extends StatelessWidget {
+  final UserModel user;
+  final String type;
+
+  const DocProfileMain({Key key, this.user, this.type}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    //getCurUser();
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
           appBar: AppBar(
-            title: Text(
-              'User Profile',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+              ),
+            title: Container(
+              //alignment: Alignment.center,
+              child: Text(
+                '          Doctor Profile',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,fontSize: 25
+                ),
               ),
             ),
-            actions: [
-              IconButton(
-                  icon: Icon(Icons.logout),
-                  color: Colors.white,
-                  onPressed: () {
-                    Auth().logout();
-                    Navigator.of(context).pushNamed('/main');
-                  }),
-            ],
+          
             backgroundColor: Colors.green,
             bottom: TabBar(
               tabs: [
@@ -35,9 +45,9 @@ class UserProfile extends StatelessWidget {
                   icon: Icon(Icons.person),
                 ),
                 Tab(
-                  text: 'Terminal',
+                  text: 'Appointments',
                   icon: Icon(Icons.assignment),
-                )
+                ),
               ],
             ),
           ),
@@ -66,7 +76,88 @@ class UserProfile extends StatelessWidget {
                             SizedBox(
                               width: 10,
                             ),
-                            Text('Name: ${user.name}')
+                            Text('Name\t\t\t\t: ${user.name}')
+                          ],
+                        ),
+                      ),
+                    )),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                        child: Container(
+                      height: 30,
+                      color: Colors.transparent,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 1.5,
+                              style: BorderStyle.solid,
+                            ),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.alternate_email_rounded),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text('E-Mail\t\t\t\t: ${user.email}')
+                          ],
+                        ),
+                      ),
+                    )),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                        child: Container(
+                      height: 30,
+                      color: Colors.transparent,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 1.5,
+                              style: BorderStyle.solid,
+                            ),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.phone),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text('Tel No\t\t\t\t: ${user.telnum}')
+                          ],
+                        ),
+                      ),
+                    )),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                        child: Container(
+                      height: 30,
+                      color: Colors.transparent,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 1.5,
+                              style: BorderStyle.solid,
+                            ),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.mail),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text('Address\t: ${user.address}')
                           ],
                         ),
                       ),
@@ -93,7 +184,7 @@ class UserProfile extends StatelessWidget {
                             SizedBox(
                               width: 10,
                             ),
-                            Text('E-Mail: ${user.email}')
+                            Text('NIC\t\t\t\t\t\t\t\t\t: ${user.nic}')
                           ],
                         ),
                       ),
@@ -116,93 +207,12 @@ class UserProfile extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Icon(Icons.person),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text('Tel No:${user.telnum} ')
-                          ],
-                        ),
-                      ),
-                    )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                        child: Container(
-                      height: 30,
-                      color: Colors.transparent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 1.5,
-                              style: BorderStyle.solid,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.person),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text('Address: ${user.address}')
-                          ],
-                        ),
-                      ),
-                    )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                        child: Container(
-                      height: 30,
-                      color: Colors.transparent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 1.5,
-                              style: BorderStyle.solid,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.person),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text('NIC: ${user.nic} ')
-                          ],
-                        ),
-                      ),
-                    )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                        child: Container(
-                      height: 30,
-                      color: Colors.transparent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 1.5,
-                              style: BorderStyle.solid,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.person),
+                            Icon(Icons.group),
                             SizedBox(
                               width: 10,
                             ),
                             Text(
-                                'Gender: ${user.gender == Gender.Male ? 'Male' : 'Female'} ')
+                                'Gender\t\t\t: ${user.gender == Gender.Male ? 'Male' : 'Female'}')
                           ],
                         ),
                       ),
@@ -210,72 +220,67 @@ class UserProfile extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                child: ListView(
-                  padding:
-                      EdgeInsets.only(top: 30, left: 40, right: 40, bottom: 40),
-                  children: [
-                    Container(
+              ListView(
+                padding:
+                    EdgeInsets.only(top: 100, left: 40, right: 40, bottom: 40),
+                children: [
+                  MaterialButton(
+                    onPressed: () {
+                      if (type == "patient")
+                        ExtendedNavigator.of(context).push(Routes.calendar,
+                            arguments: CalendarArguments(user: user));
+                      else
+                        ExtendedNavigator.of(context).push(
+                            Routes.appointmentsForDoctor,
+                            arguments:
+                                AppointmentsForDoctorArguments(user: user));
+                    },
+                    child: Container(
+                      height: 80.0,
+                      color: Colors.transparent,
                       child: Container(
-                        height: 40,
-                        child: Text(
-                          'Patient Records',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30,
-                              color: Colors.lightGreen[900]),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed('/addrecord');
-                      },
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        height: 40.0,
-                        color: Colors.transparent,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 3,
-                                style: BorderStyle.solid,
-                              ),
-                              borderRadius: BorderRadius.circular(20.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Center(child: FaIcon(FontAwesomeIcons.plus)),
-                              SizedBox(
-                                width: 10.0,
-                              ),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 1.5,
+                              style: BorderStyle.solid,
+                            ),
+                            borderRadius: BorderRadius.circular(60.0)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(child: FaIcon(FontAwesomeIcons.search)),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            if (type == "patient")
                               Center(
                                 child: Text(
-                                  ' Add Record',
+                                  ' Make an Appointment',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20),
                                 ),
                               )
-                            ],
-                          ),
+                            else
+                              Center(
+                                child: Text(
+                                  ' Current Appointments',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                              )
+                          ],
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      child: Text('Rec 01'),
-                    )
-                  ],
-                ),
-              )
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                ],
+              ),
             ],
           ),
           floatingActionButtonLocation:
@@ -290,12 +295,12 @@ class UserProfile extends StatelessWidget {
           bottomNavigationBar: BottomNavigationBar(
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
+                icon: Icon(Icons.info_sharp),
+                label: 'About us',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),
-                label: 'settings',
+                label: 'news',
               ),
             ],
             selectedItemColor: Colors.green[900],
@@ -303,10 +308,12 @@ class UserProfile extends StatelessWidget {
             onTap: (value) {
               switch (value) {
                 case 0:
-                  Navigator.of(context).pushNamed('/main');
+                  ExtendedNavigator.of(context).push(Routes.aboutUs);
                   break;
                 case 1:
-                  Navigator.of(context).pushNamed('/main');
+                  // Navigator.of(context).pop();
+                  // Navigator.of(context).pop();
+                  ExtendedNavigator.of(context).push(Routes.homePage);
                   break;
                 default:
               }

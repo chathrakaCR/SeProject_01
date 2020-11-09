@@ -1,17 +1,23 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:se_project02/models/userModel.dart';
+import 'package:se_project02/routes/router.gr.dart';
 import 'package:se_project02/services/auth.dart';
-import 'package:se_project02/services/database.dart';
-import 'package:get/get.dart';
+import 'package:se_project02/viewmodels/search_viewmodel.dart';
+
+String userType;
 
 class AdminHome extends StatefulWidget {
+  final UserModel user;
+
+  const AdminHome({Key key, this.user}) : super(key: key);
   @override
   _AdminHomeState createState() => _AdminHomeState();
 }
 
 class _AdminHomeState extends State<AdminHome> {
-  final UserModel user = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,24 +42,19 @@ class _AdminHomeState extends State<AdminHome> {
                         height: 100,
                         width: 100,
                         margin: EdgeInsets.only(top: 30),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: const DecorationImage(
-                                image: AssetImage('assets/admin.jpeg'),
-                                fit: BoxFit.cover)),
                       ),
                       SizedBox(
                         height: 10,
                       ),
                       Text(
-                        "${user.name}",
+                        "${widget.user.name}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                             color: Colors.white),
                       ),
                       Text(
-                        '${user.email}',
+                        '${widget.user.email}',
                         style: TextStyle(color: Colors.white),
                       )
                     ],
@@ -67,7 +68,7 @@ class _AdminHomeState extends State<AdminHome> {
                   style: TextStyle(fontSize: 15),
                 ),
                 onTap: () {
-                  Navigator.of(context).pushNamed('/doctorsignup');
+                  ExtendedNavigator.of(context).push(Routes.doctorSignup);
                 },
               ),
               ListTile(
@@ -77,7 +78,7 @@ class _AdminHomeState extends State<AdminHome> {
                   style: TextStyle(fontSize: 15),
                 ),
                 onTap: () {
-                  Navigator.of(context).pushNamed('/pharmsignup');
+                  ExtendedNavigator.of(context).push(Routes.pharmSignup);
                 },
               ),
               ListTile(
@@ -88,7 +89,7 @@ class _AdminHomeState extends State<AdminHome> {
                 ),
                 onTap: () async {
                   Auth().logout();
-                  Navigator.of(context).pushNamed('/main');
+                  ExtendedNavigator.of(context).push(Routes.InitialRoute);
                 },
               )
             ],
@@ -99,7 +100,9 @@ class _AdminHomeState extends State<AdminHome> {
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed('/docsearch');
+                userType = "doctor";
+                showSearch(context: context, delegate: Searchdata());
+                //showSearch(context: context, delegate: Searchdata("doctor"));
               },
               child: Container(
                 height: 80.0,
@@ -136,7 +139,10 @@ class _AdminHomeState extends State<AdminHome> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed('/patientsearch');
+                userType = "patient";
+                //showSearch(context: context, delegate: Searchdata("patient"));
+                showSearch(context: context, delegate: Searchdata());
+                // ExtendedNavigator.of(context).push(Routes.patientSearch);
               },
               child: Container(
                   height: 80.0,
@@ -180,12 +186,12 @@ class _AdminHomeState extends State<AdminHome> {
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+              icon: Icon(Icons.info_sharp),
+              label: 'About us',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'settings',
+              icon: Icon(Icons.assignment),
+              label: 'news',
             ),
           ],
           selectedItemColor: Colors.green[900],
@@ -193,14 +199,92 @@ class _AdminHomeState extends State<AdminHome> {
           onTap: (value) {
             switch (value) {
               case 0:
-                Navigator.of(context).pushNamed('/main');
+                ExtendedNavigator.of(context).push(Routes.aboutUs);
                 break;
               case 1:
-                Navigator.of(context).pushNamed('/main');
+                ExtendedNavigator.of(context).push(Routes.homePage);
                 break;
               default:
             }
           },
         ));
+  }
+}
+
+class Searchdata extends SearchDelegate<String> {
+  SearchViewModel viewModel = SearchViewModel(userType);
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+          icon: Icon(Icons.clear),
+          onPressed: () {
+            query = '';
+          })
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+        icon: AnimatedIcon(
+          icon: AnimatedIcons.menu_arrow,
+          progress: transitionAnimation,
+        ),
+        onPressed: () {
+          close(context, null);
+        });
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    if (query.isNotEmpty) {
+      viewModel.query(query);
+    }
+
+    return ChangeNotifierProvider(
+      create: (context) => viewModel,
+      child: Consumer<SearchViewModel>(builder: (context, model, child) {
+        return model.users != null
+            ? ListView.builder(
+                itemBuilder: (context, index) => ListTile(
+                  onTap: () {
+                    if (userType == "patient")
+                      ExtendedNavigator.of(context).push(Routes.userAdminView,
+                          arguments:
+                              UserAdminViewArguments(user: model.users[index]));
+                    else
+                      ExtendedNavigator.of(context).push(Routes.docProfileMain,
+                          arguments: DocProfileMainArguments(
+                              user: model.users[index], type: "admin"));
+                  },
+                  leading: Icon(Icons.person_rounded),
+                  title: RichText(
+                    text: TextSpan(
+                        text:
+                            model.users[index].name.substring(0, query.length),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        children: [
+                          TextSpan(
+                              text: model.users[index].name
+                                  .substring(query.length),
+                              style: TextStyle(color: Colors.grey))
+                        ]),
+                  ),
+                ),
+                itemCount: model.users.length,
+              )
+            : Container();
+      }),
+    );
   }
 }

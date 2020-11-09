@@ -1,16 +1,22 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:se_project02/models/userModel.dart';
+import 'package:se_project02/routes/router.gr.dart';
+import 'package:se_project02/viewmodels/patient_search_viewmodel.dart';
 
 class PharmProfile extends StatelessWidget {
-  final UserModel user = Get.find();
+  final UserModel user;
+
+  const PharmProfile({Key key, this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Pharmacy Profile',
+          '${user.name}',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -77,11 +83,51 @@ class PharmProfile extends StatelessWidget {
                 style: TextStyle(fontSize: 15),
               ),
               onTap: () {
-                Navigator.of(context).pushNamed('/main');
+                ExtendedNavigator.of(context).push(Routes.InitialRoute);
               },
             )
           ],
         ),
+      ),
+      body: ListView(
+        padding: EdgeInsets.only(top: 100, left: 40, right: 40, bottom: 40),
+        children: [
+          GestureDetector(
+            onTap: () {
+              showSearch(context: context, delegate: Searchdata());
+              //Navigator.of(context).pushNamed('/appointmentsfordoctor');
+            },
+            child: Container(
+              height: 80.0,
+              color: Colors.transparent,
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1.5,
+                      style: BorderStyle.solid,
+                    ),
+                    borderRadius: BorderRadius.circular(60.0)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(child: FaIcon(FontAwesomeIcons.search)),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Center(
+                      child: Text(
+                        'Search Prescription',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
@@ -94,12 +140,12 @@ class PharmProfile extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.info_sharp),
+            label: 'About us',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: Icon(Icons.assignment),
+            label: 'news',
           ),
         ],
         selectedItemColor: Colors.green[900],
@@ -107,10 +153,10 @@ class PharmProfile extends StatelessWidget {
         onTap: (value) {
           switch (value) {
             case 0:
-              Navigator.of(context).pushNamed('/main');
+              ExtendedNavigator.of(context).push(Routes.aboutUs);
               break;
             case 1:
-              Navigator.of(context).pushNamed('/main');
+              ExtendedNavigator.of(context).push(Routes.homePage);
               break;
             default:
           }
@@ -121,9 +167,7 @@ class PharmProfile extends StatelessWidget {
 }
 
 class Searchdata extends SearchDelegate<String> {
-  final names = ['amal', 'kamal', 'nimal', 'kalum'];
-
-  final recentsearch = ['kamal', 'niaml'];
+  PatientSearchViewModel viewModel = PatientSearchViewModel();
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -150,37 +194,50 @@ class Searchdata extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
     throw UnimplementedError();
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final finalList = query.isEmpty
-        ? recentsearch
-        : names.where((p) => p.startsWith(query)).toList();
+    if (query.isNotEmpty) {
+      viewModel.query(query);
+    }
 
-    return ListView.builder(
-      itemBuilder: (context, index) => ListTile(
-        onTap: () {
-          Navigator.of(context).pushNamed('/userprofile');
-        },
-        leading: Icon(Icons.person_rounded),
-        title: RichText(
-          text: TextSpan(
-              text: finalList[index].substring(0, query.length),
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-              children: [
-                TextSpan(
-                    text: finalList[index].substring(query.length),
-                    style: TextStyle(color: Colors.grey))
-              ]),
-        ),
-      ),
-      itemCount: finalList.length,
+    return ChangeNotifierProvider(
+      create: (context) => viewModel,
+      child: Consumer<PatientSearchViewModel>(builder: (context, model, child) {
+        return model.users != null
+            ? ListView.builder(
+                itemBuilder: (context, index) => ListTile(
+                  onTap: () {
+                    // ExtendedNavigator.of(context).push(Routes.userProfile,
+                    //     arguments:
+                    //         UserProfileArguments(user: model.users[index]));
+                    ExtendedNavigator.of(context).push(Routes.viewPrescriptions,
+                        arguments: ViewPrescriptionsArguments(
+                            user: model.users[index]));
+                  },
+                  leading: Icon(Icons.person_rounded),
+                  title: RichText(
+                    text: TextSpan(
+                        text:
+                            model.users[index].name.substring(0, query.length),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        children: [
+                          TextSpan(
+                              text: model.users[index].name
+                                  .substring(query.length),
+                              style: TextStyle(color: Colors.grey))
+                        ]),
+                  ),
+                ),
+                itemCount: model.users.length,
+              )
+            : Container();
+      }),
     );
   }
 }

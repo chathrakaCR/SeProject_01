@@ -1,41 +1,76 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:se_project02/models/userModel.dart';
+import 'package:se_project02/routes/router.gr.dart';
 import 'package:se_project02/services/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class DoctorSignup extends StatefulWidget {
+class PatientSignup extends StatefulWidget {
   @override
-  _DoctorSignupState createState() => _DoctorSignupState();
+  _PatientSignupState createState() => _PatientSignupState();
 }
 
-class _DoctorSignupState extends State<DoctorSignup> {
+final FirebaseAuth auth = FirebaseAuth.instance;
+
+void getUser() async {
+  final FirebaseUser user = await auth.currentUser();
+  final uid = user.uid;
+}
+
+class _PatientSignupState extends State<PatientSignup> {
   final UserModel _user = UserModel();
   String _password = "";
 
   @override
   Widget build(BuildContext context) {
+    //double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Doctor Registration',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.green,
-      ),
-      body: SingleChildScrollView(
+      body: Padding(
+        padding: EdgeInsets.all(30),
         child: Column(
           //padding: EdgeInsets.only(left: 10.0, right: 10.0),
           children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              //color: Colors.yellow,
+              child: Stack(
+                children: [
+                  Container(
+                    padding: EdgeInsets.fromLTRB(15.0, 50.0, 0.0, 0.0),
+                    child: Text(
+                      'Sign Up',
+                      style: TextStyle(
+                          fontSize: 80.0, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(290.0, 50.0, 0.0, 0.0),
+                    child: Text(
+                      '.',
+                      style: TextStyle(
+                          fontSize: 80.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green),
+                    ),
+                  )
+                ],
+              ),
+            ),
             SizedBox(
               height: 15.0,
             ),
-            Container(
+            Expanded(
               //height: height - 170,
               //color: Colors.red,
-              padding: EdgeInsets.only(top: 35.0, right: 20.0, left: 20),
-              child: Column(
+              //padding: EdgeInsets.only(top: 35.0, right: 20.0, left: 20),
+              child: ListView(
                 children: [
                   TextField(
-                    onChanged: (value) => _user.name = value,
+                    onChanged: (value) {
+                      _user.name = value;
+                      _user.userName = value.trim().toLowerCase();
+                    },
                     decoration: InputDecoration(
                         labelText: 'NAME',
                         labelStyle: TextStyle(
@@ -44,18 +79,6 @@ class _DoctorSignupState extends State<DoctorSignup> {
                             borderSide: BorderSide(color: Colors.green))),
                   ),
                   SizedBox(height: 10.0),
-                  TextField(
-                    onChanged: (value) => _user.docReg = value,
-                    decoration: InputDecoration(
-                        labelText: 'Reg No',
-                        labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.grey),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.green))),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
                   TextField(
                     onChanged: (value) => _user.telnum = value,
                     decoration: InputDecoration(
@@ -82,6 +105,7 @@ class _DoctorSignupState extends State<DoctorSignup> {
                     onChanged: (value) => _user.birthday = value,
                     decoration: InputDecoration(
                         labelText: 'BIRTHDAY',
+                        hintText: 'dd/mm/yy',
                         labelStyle: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.grey),
                         focusedBorder: UnderlineInputBorder(
@@ -126,9 +150,6 @@ class _DoctorSignupState extends State<DoctorSignup> {
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.green))),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   TextField(
                     onChanged: (value) => _user.email = value,
                     decoration: InputDecoration(
@@ -137,9 +158,6 @@ class _DoctorSignupState extends State<DoctorSignup> {
                             fontWeight: FontWeight.bold, color: Colors.grey),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.green))),
-                  ),
-                  SizedBox(
-                    height: 10,
                   ),
                   TextField(
                     onChanged: (value) => _password = value,
@@ -164,16 +182,22 @@ class _DoctorSignupState extends State<DoctorSignup> {
                       shadowColor: Colors.greenAccent,
                       color: Colors.green,
                       elevation: 7.0,
-                      child: GestureDetector(
-                        onTap: () async {
-                          _user.userType = "Doctor";
-                          bool res = await Auth().register(_user, _password);
+                      child: MaterialButton(
+                        onPressed: () async {
+                          _user.userType = "Patient";
+                          bool res = await Auth()
+                              .register(_user, _password)
+                              .whenComplete(
+                                () => Fluttertoast.showToast(
+                                  msg: _user.name + " Registered Successfully",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  textColor: Colors.black,
+                                  fontSize: 16,
+                                  backgroundColor: Colors.grey[200],
+                                ),
+                              );
                           print(res);
-                          if (_user.userType == 'Doctor') {
-                            Navigator.of(context).pushNamed('/docprofile');
-                          } else {
-                            Navigator.of(context).pushNamed('/main');
-                          }
+                          Navigator.pop(context);
                         },
                         child: Center(
                           child: Text(
@@ -191,7 +215,7 @@ class _DoctorSignupState extends State<DoctorSignup> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushNamed('/main');
+                      ExtendedNavigator.of(context).push(Routes.InitialRoute);
                     },
                     child: Container(
                       height: 40.0,

@@ -1,8 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:se_project02/models/userModel.dart';
+import 'package:se_project02/routes/router.gr.dart';
 import 'package:se_project02/services/auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class PharmSignup extends StatelessWidget {
+class DoctorSignup extends StatefulWidget {
+  @override
+  _DoctorSignupState createState() => _DoctorSignupState();
+}
+
+class _DoctorSignupState extends State<DoctorSignup> {
   final UserModel _user = UserModel();
   String _password = "";
 
@@ -11,7 +19,7 @@ class PharmSignup extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Pharmacy Registration',
+          'Doctor Registration',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.green,
@@ -30,7 +38,10 @@ class PharmSignup extends StatelessWidget {
               child: Column(
                 children: [
                   TextField(
-                    onChanged: (value) => _user.name = value,
+                    onChanged: (value) => {
+                      _user.name = value,
+                      _user.docName = value.trim().toLowerCase(),
+                    },
                     decoration: InputDecoration(
                         labelText: 'NAME',
                         labelStyle: TextStyle(
@@ -40,7 +51,7 @@ class PharmSignup extends StatelessWidget {
                   ),
                   SizedBox(height: 10.0),
                   TextField(
-                    onChanged: (value) => _user.pharmReg = value,
+                    onChanged: (value) => _user.docReg = value,
                     decoration: InputDecoration(
                         labelText: 'Reg No',
                         labelStyle: TextStyle(
@@ -74,6 +85,57 @@ class PharmSignup extends StatelessWidget {
                     height: 10.0,
                   ),
                   TextField(
+                    onChanged: (value) => _user.birthday = value,
+                    decoration: InputDecoration(
+                        labelText: 'BIRTHDAY',
+                        labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.grey),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green))),
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  Text("GENDER"),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Radio(
+                        value: Gender.Male,
+                        groupValue: _user.gender,
+                        onChanged: (value) => setState(() {
+                          _user.gender = value;
+                        }),
+                      ),
+                      Text(
+                        'Male',
+                      ),
+                      Radio(
+                        value: Gender.Femail,
+                        groupValue: _user.gender,
+                        onChanged: (value) => setState(() {
+                          _user.gender = value;
+                        }),
+                      ),
+                      Text('Female'),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  TextField(
+                    onChanged: (value) => _user.nic = value,
+                    decoration: InputDecoration(
+                        labelText: 'NIC',
+                        labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.grey),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green))),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
                     onChanged: (value) => _user.email = value,
                     decoration: InputDecoration(
                         labelText: 'E-MAIL',
@@ -96,7 +158,10 @@ class PharmSignup extends StatelessWidget {
                     obscureText: true,
                   ),
                   SizedBox(
-                    height: 40,
+                    height: 20.0,
+                  ),
+                  SizedBox(
+                    height: 40.0,
                   ),
                   Container(
                     height: 40.0,
@@ -105,15 +170,40 @@ class PharmSignup extends StatelessWidget {
                       shadowColor: Colors.greenAccent,
                       color: Colors.green,
                       elevation: 7.0,
-                      child: GestureDetector(
-                        onTap: () async {
-                          _user.userType = "Pharmacy";
-                          bool res = await Auth().register(_user, _password);
+                      child: MaterialButton(
+                        onPressed: () async {
+                          _user.userType = "Doctor";
+                          String tmp;
+                          bool res = await Auth()
+                              .register(_user, _password)
+                              .whenComplete(() => tmp = _user.id)
+                              .whenComplete(
+                                () => Fluttertoast.showToast(
+                                  msg: _user.name + " Registered Successfully",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  textColor: Colors.black,
+                                  fontSize: 16,
+                                  backgroundColor: Colors.grey[200],
+                                ),
+                              )
+                              .whenComplete(
+                                () => Fluttertoast.showToast(
+                                  msg: _user.name + " Registered Successfully",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  textColor: Colors.black,
+                                  fontSize: 16,
+                                  backgroundColor: Colors.grey[200],
+                                ),
+                              );
+                          print(tmp);
                           print(res);
                           if (_user.userType == 'Doctor') {
-                            Navigator.of(context).pushNamed('/pharmprofile');
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            //ExtendedNavigator.of(context).push(Routes.adminHome);
                           } else {
-                            Navigator.of(context).pushNamed('/main');
+                            ExtendedNavigator.of(context)
+                                .push(Routes.InitialRoute);
                           }
                         },
                         child: Center(
@@ -132,7 +222,7 @@ class PharmSignup extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushNamed('/main');
+                      Navigator.of(context).pop();
                     },
                     child: Container(
                       height: 40.0,

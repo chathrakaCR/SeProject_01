@@ -1,20 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:se_project02/addrecord.dart';
-import 'package:se_project02/adminhome.dart';
 import 'package:se_project02/models/userModel.dart';
-import 'package:se_project02/patientsearch.dart';
-import 'package:se_project02/pharmsignup.dart';
+import 'package:se_project02/routes/router.gr.dart';
 import 'package:se_project02/services/auth.dart';
-import 'doctorsignup.dart';
-import 'patientsignup.dart';
-import 'pharmsignup.dart';
-import 'userprofile.dart';
-import 'docprofile.dart';
-import 'docsearch.dart';
-import 'patientsearch.dart';
-import 'pharmprofile.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,19 +17,26 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primaryColor: Colors.green, accentColor: Colors.white),
       debugShowCheckedModeBanner: false,
-      routes: <String, WidgetBuilder>{
-        '/patientsignup': (BuildContext context) => new PatientSignup(),
-        '/doctorsignup': (BuildContext context) => new DoctorSignup(),
-        '/docprofile': (BuildContext context) => new DocProfile(),
-        '/main': (BuildContext context) => new MyHomePage(),
-        '/adminhome': (BuildContext context) => new AdminHome(),
-        '/pharmprofile': (BuildContext context) => new PharmProfile(),
-        '/pharmsignup': (BuildContext context) => new PharmSignup(),
-        '/userprofile': (BuildContext context) => new UserProfile(),
-        '/docsearch': (BuildContext context) => new DocSearch(),
-        '/patientsearch': (BuildContext context) => new PatientSearch(),
-        '/addrecord': (BuildContext context) => new AddRecord(),
-      },
+      onGenerateRoute: NewRouter(),
+      builder: ExtendedNavigator.builder(
+          router: NewRouter(), builder: (context, extendedNav) => extendedNav),
+      // routes: <String, WidgetBuilder>{
+      //   '/patientsignup': (BuildContext context) => new PatientSignup(),
+      //   '/doctorsignup': (BuildContext context) => new DoctorSignup(),
+      //   '/docprofile': (BuildContext context) => new DocProfile(),
+      //   '/main': (BuildContext context) => new MyHomePage(),
+      //   '/adminhome': (BuildContext context) => new AdminHome(),
+      //   '/pharmprofile': (BuildContext context) => new PharmProfile(),
+      //   '/pharmsignup': (BuildContext context) => new PharmSignup(),
+      //   '/userprofile': (BuildContext context) => new UserProfile(),
+      //   '/docsearch': (BuildContext context) => new DocSearch(),
+      //   '/patientsearch': (BuildContext context) => new PatientSearch(),
+      //   '/addrecord': (BuildContext context) => new AddRecord(),
+      //   '/appointments': (BuildContext context) => new Appointments(),
+      //   '/appointmentsfordoctor': (BuildContext context) =>
+      //       new AppointmentsForDoctor(),
+      //   '/appointmentsform': (BuildContext context) => new AppointmentForm(),
+      // },
       home: MyHomePage(),
     );
   }
@@ -131,26 +129,42 @@ class _MyHomePageState extends State<MyHomePage> {
                     shadowColor: Colors.greenAccent,
                     color: Colors.green,
                     elevation: 7.0,
-                    child: GestureDetector(
-                      onTap: () async {
+                    child: MaterialButton(
+                      onPressed: () async {
                         UserModel user = await Auth().signIn(_email, _password);
                         if (user == null) {
+                          Fluttertoast.showToast(
+                            msg: " Invalid Username or Password",
+                            toastLength: Toast.LENGTH_SHORT,
+                            textColor: Colors.black,
+                            fontSize: 16,
+                            backgroundColor: Colors.grey[200],
+                          );
+                          ExtendedNavigator.of(context)
+                              .push(Routes.InitialRoute);
                           return;
                         }
                         Get.put(user);
                         print(user);
                         switch (user.userType) {
                           case 'Patient':
-                            Navigator.of(context).pushNamed('/userprofile');
+                            ExtendedNavigator.of(context).push(
+                                Routes.userProfile,
+                                arguments: UserProfileArguments(user: user));
                             break;
                           case 'Doctor':
-                            Navigator.of(context).pushNamed('/docprofile');
+                            ExtendedNavigator.of(context).push(
+                                Routes.docProfile,
+                                arguments: DocProfileArguments(user: user));
                             break;
                           case 'Admin':
-                            Navigator.of(context).pushNamed('/adminhome');
+                            ExtendedNavigator.of(context).push(Routes.adminHome,
+                                arguments: AdminHomeArguments(user: user));
                             break;
                           case 'Pharmacy':
-                            Navigator.of(context).pushNamed('/pharmprofile');
+                            ExtendedNavigator.of(context).push(
+                                Routes.pharmProfile,
+                                arguments: PharmProfileArguments(user: user));
                             break;
                           default:
                         }
@@ -169,9 +183,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: 20.0,
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/userprofile');
+                MaterialButton(
+                  onPressed: () async {
+                    //ExtendedNavigator.of(context).push(Routes.homePage);
+                    UserModel user = await Auth().googleSignIn();
+                    Get.put(user);
+                    print(user);
+                    switch (user.userType) {
+                      case 'Patient':
+                        ExtendedNavigator.of(context).push(Routes.userProfile,
+                            arguments: UserProfileArguments(user: user));
+                        break;
+                      case 'Doctor':
+                        ExtendedNavigator.of(context).push(Routes.docProfile,
+                            arguments: DocProfileArguments(user: user));
+                        break;
+                      case 'Admin':
+                        ExtendedNavigator.of(context).push(Routes.adminHome,
+                            arguments: AdminHomeArguments(user: user));
+                        break;
+                      case 'Pharmacy':
+                        ExtendedNavigator.of(context).push(Routes.pharmProfile,
+                            arguments: PharmProfileArguments(user: user));
+                        break;
+                      default:
+                    }
                   },
                   child: Container(
                     height: 40.0,
@@ -222,7 +258,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).pushNamed('/patientsignup');
+                  ExtendedNavigator.of(context).push(Routes.patientSignup);
                 },
                 child: Text(
                   'Register',

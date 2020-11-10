@@ -6,8 +6,18 @@ import 'package:se_project02/models/userModel.dart';
 import 'package:se_project02/routes/router.gr.dart';
 import 'package:se_project02/services/auth.dart';
 import 'package:se_project02/viewmodels/search_viewmodel.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 String userType;
+
+_makingPhoneCall() async {
+  const url = 'tel:0719855825';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 class AdminHome extends StatefulWidget {
   final UserModel user;
@@ -95,56 +105,23 @@ class _AdminHomeState extends State<AdminHome> {
             ],
           ),
         ),
-        body: ListView(
-          padding: EdgeInsets.only(top: 100, left: 40, right: 40, bottom: 40),
-          children: [
-            GestureDetector(
-              onTap: () {
-                userType = "doctor";
-                showSearch(context: context, delegate: Searchdata());
-                //showSearch(context: context, delegate: Searchdata("doctor"));
-              },
-              child: Container(
-                height: 80.0,
-                color: Colors.transparent,
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/background.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: ListView(
+            padding: EdgeInsets.only(top: 100, left: 40, right: 40, bottom: 40),
+            children: [
+              GestureDetector(
+                onTap: () {
+                  userType = "doctor";
+                  showSearch(context: context, delegate: Searchdata());
+                  //showSearch(context: context, delegate: Searchdata("doctor"));
+                },
                 child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 1.5,
-                        style: BorderStyle.solid,
-                      ),
-                      borderRadius: BorderRadius.circular(60.0)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(child: FaIcon(FontAwesomeIcons.search)),
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Center(
-                        child: Text(
-                          ' Search Doctor',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            GestureDetector(
-              onTap: () {
-                userType = "patient";
-                //showSearch(context: context, delegate: Searchdata("patient"));
-                showSearch(context: context, delegate: Searchdata());
-                // ExtendedNavigator.of(context).push(Routes.patientSearch);
-              },
-              child: Container(
                   height: 80.0,
                   color: Colors.transparent,
                   child: Container(
@@ -164,20 +141,63 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                         Center(
                           child: Text(
-                            ' Search Patient',
+                            ' Search Doctor',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                         )
                       ],
                     ),
-                  )),
-            )
-          ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              GestureDetector(
+                onTap: () {
+                  userType = "patient";
+                  //showSearch(context: context, delegate: Searchdata("patient"));
+                  showSearch(context: context, delegate: Searchdata());
+                  // ExtendedNavigator.of(context).push(Routes.patientSearch);
+                },
+                child: Container(
+                    height: 80.0,
+                    color: Colors.transparent,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 1.5,
+                            style: BorderStyle.solid,
+                          ),
+                          borderRadius: BorderRadius.circular(60.0)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(child: FaIcon(FontAwesomeIcons.search)),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Center(
+                            child: Text(
+                              ' Search Patient',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                          )
+                        ],
+                      ),
+                    )),
+              )
+            ],
+          ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            _makingPhoneCall();
+          },
           tooltip: 'Increment',
           child: Icon(Icons.phone),
           elevation: 2.0,
@@ -195,7 +215,7 @@ class _AdminHomeState extends State<AdminHome> {
             ),
           ],
           selectedItemColor: Colors.green[900],
-          backgroundColor: Colors.lightGreen[200],
+          backgroundColor: Colors.lightGreen[300],
           onTap: (value) {
             switch (value) {
               case 0:

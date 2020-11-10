@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route_annotations.dart';
 import 'package:se_project02/add_record.dart';
-import 'package:se_project02/forgetpass.dart';
+import 'package:se_project02/stepcount.dart';
 import 'package:se_project02/user_doc_view.dart';
 import 'package:se_project02/view_prescriptions.dart';
 
@@ -24,6 +24,11 @@ import '../view_event.dart';
 import '../view_prescriptions.dart';
 import '../views/homepage.dart';
 import '../about_us.dart';
+import '../docmanageappointments.dart';
+import '../stepcount.dart';
+import '../chatbot.dart';
+import '../pharmacy_list.dart';
+import '../stepcount.dart';
 
 @MaterialAutoRouter(
   routes: <AutoRoute>[
@@ -49,7 +54,10 @@ import '../about_us.dart';
     MaterialRoute(page: ViewPrescriptions, initial: false),
     MaterialRoute(page: HomePage, initial: false),
     MaterialRoute(page: AboutUs, initial: false),
-    MaterialRoute(page: ForgetPassword, initial: false)
+    MaterialRoute(page: DocManageAppointments, initial: false),
+    MaterialRoute(page: StepCount, initial: false),
+    MaterialRoute(page: ChatBot, initial: false),
+    MaterialRoute(page: PharmacyList, initial: false),
   ],
 )
 class $NewRouter {}

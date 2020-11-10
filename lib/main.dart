@@ -6,6 +6,7 @@ import 'package:se_project02/models/userModel.dart';
 import 'package:se_project02/routes/router.gr.dart';
 import 'package:se_project02/services/auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:se_project02/viewmodels/pharmacy_search_viewmodel.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,23 +21,6 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: NewRouter(),
       builder: ExtendedNavigator.builder(
           router: NewRouter(), builder: (context, extendedNav) => extendedNav),
-      // routes: <String, WidgetBuilder>{
-      //   '/patientsignup': (BuildContext context) => new PatientSignup(),
-      //   '/doctorsignup': (BuildContext context) => new DoctorSignup(),
-      //   '/docprofile': (BuildContext context) => new DocProfile(),
-      //   '/main': (BuildContext context) => new MyHomePage(),
-      //   '/adminhome': (BuildContext context) => new AdminHome(),
-      //   '/pharmprofile': (BuildContext context) => new PharmProfile(),
-      //   '/pharmsignup': (BuildContext context) => new PharmSignup(),
-      //   '/userprofile': (BuildContext context) => new UserProfile(),
-      //   '/docsearch': (BuildContext context) => new DocSearch(),
-      //   '/patientsearch': (BuildContext context) => new PatientSearch(),
-      //   '/addrecord': (BuildContext context) => new AddRecord(),
-      //   '/appointments': (BuildContext context) => new Appointments(),
-      //   '/appointmentsfordoctor': (BuildContext context) =>
-      //       new AppointmentsForDoctor(),
-      //   '/appointmentsform': (BuildContext context) => new AppointmentForm(),
-      // },
       home: MyHomePage(),
     );
   }
@@ -184,31 +168,34 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 20.0,
                 ),
                 MaterialButton(
-                  onPressed: () async {
-                    //ExtendedNavigator.of(context).push(Routes.homePage);
-                    UserModel user = await Auth().googleSignIn();
-                    Get.put(user);
-                    print(user);
-                    switch (user.userType) {
-                      case 'Patient':
-                        ExtendedNavigator.of(context).push(Routes.userProfile,
-                            arguments: UserProfileArguments(user: user));
-                        break;
-                      case 'Doctor':
-                        ExtendedNavigator.of(context).push(Routes.docProfile,
-                            arguments: DocProfileArguments(user: user));
-                        break;
-                      case 'Admin':
-                        ExtendedNavigator.of(context).push(Routes.adminHome,
-                            arguments: AdminHomeArguments(user: user));
-                        break;
-                      case 'Pharmacy':
-                        ExtendedNavigator.of(context).push(Routes.pharmProfile,
-                            arguments: PharmProfileArguments(user: user));
-                        break;
-                      default:
-                    }
+                  onPressed: () {
+                    //ExtendedNavigator.of(context).push(Routes.pharmacyList);
                   },
+                  //async {
+                  //
+                  //   UserModel user = await Auth().googleSignIn();
+                  //   Get.put(user);
+                  //   print(user);
+                  //   switch (user.userType) {
+                  //     case 'Patient':
+                  //       ExtendedNavigator.of(context).push(Routes.userProfile,
+                  //           arguments: UserProfileArguments(user: user));
+                  //       break;
+                  //     case 'Doctor':
+                  //       ExtendedNavigator.of(context).push(Routes.docProfile,
+                  //           arguments: DocProfileArguments(user: user));
+                  //       break;
+                  //     case 'Admin':
+                  //       ExtendedNavigator.of(context).push(Routes.adminHome,
+                  //           arguments: AdminHomeArguments(user: user));
+                  //       break;
+                  //     case 'Pharmacy':
+                  //       ExtendedNavigator.of(context).push(Routes.pharmProfile,
+                  //           arguments: PharmProfileArguments(user: user));
+                  //       break;
+                  //     default:
+                  //   }
+                  // },
                   child: Container(
                     height: 40.0,
                     color: Colors.transparent,

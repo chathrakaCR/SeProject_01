@@ -103,6 +103,44 @@ class Database {
     }
   }
 
+  Future<List<UserModel>> getP() async {
+    try {
+      // print("User: $uid");
+      List<UserModel> user = List();
+      QuerySnapshot snapshot = await _firestore
+          .collection(userPath)
+          .where("userType", isEqualTo: "Pharmacy")
+          .getDocuments();
+      print("Snaps : $snapshot");
+      for (DocumentSnapshot r in snapshot.documents) {
+        UserModel model = UserModel.fromMap(r.data);
+        user.add(model);
+      }
+      return user;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<List<UserModel>> getD() async {
+    try {
+      // print("User: $uid");
+      List<UserModel> user = List();
+      QuerySnapshot snapshot = await _firestore
+          .collection(userPath)
+          .where("userType", isEqualTo: "Doctor")
+          .getDocuments();
+      print("Snaps : $snapshot");
+      for (DocumentSnapshot r in snapshot.documents) {
+        UserModel model = UserModel.fromMap(r.data);
+        user.add(model);
+      }
+      return user;
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<List<EventModel>> getAppointments(String uid, String type) async {
     try {
       print("User: $uid");

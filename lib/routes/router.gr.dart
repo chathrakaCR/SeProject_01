@@ -17,14 +17,18 @@ import '../appointments_for_doctor.dart';
 import '../appointments_for_patient.dart';
 import '../appointments_form.dart';
 import '../calendar.dart';
+import '../chatbot.dart';
 import '../doc_Profile_Main.dart';
+import '../docmanageappointments.dart';
 import '../docprofile.dart';
 import '../doctor_signup.dart';
+import '../stepcount.dart';
 import '../main.dart';
 import '../models/event.dart';
 import '../models/userModel.dart';
 import '../patient_signup.dart';
 import '../pharm_signup.dart';
+import '../pharmacy_list.dart';
 import '../pharmprofile.dart';
 import '../user_admin_view.dart';
 import '../user_doc_view.dart';
@@ -32,6 +36,7 @@ import '../user_profile.dart';
 import '../view_event.dart';
 import '../view_prescriptions.dart';
 import '../views/homepage.dart';
+import '../stepcount.dart';
 
 class Routes {
   static const String InitialRoute = '/';
@@ -55,6 +60,10 @@ class Routes {
   static const String viewPrescriptions = '/view-prescriptions';
   static const String homePage = '/home-page';
   static const String aboutUs = '/about-us';
+  static const String docManageAppointments = '/doc-manage-appointments';
+  static const String stepCount = '/step-count';
+  static const String chatBot = '/chat-bot';
+  static const String pharmacyList = '/pharmacy-list';
   static const all = <String>{
     InitialRoute,
     addRecord,
@@ -77,6 +86,10 @@ class Routes {
     viewPrescriptions,
     homePage,
     aboutUs,
+    docManageAppointments,
+    chatBot,
+    pharmacyList,
+    stepCount,
   };
 }
 
@@ -105,6 +118,10 @@ class NewRouter extends RouterBase {
     RouteDef(Routes.viewPrescriptions, page: ViewPrescriptions),
     RouteDef(Routes.homePage, page: HomePage),
     RouteDef(Routes.aboutUs, page: AboutUs),
+    RouteDef(Routes.docManageAppointments, page: DocManageAppointments),
+    RouteDef(Routes.stepCount, page: StepCount),
+    RouteDef(Routes.chatBot, page: ChatBot),
+    RouteDef(Routes.pharmacyList, page: PharmacyList),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -281,6 +298,7 @@ class NewRouter extends RouterBase {
           key: args.key,
           user: args.user,
           note: args.note,
+          userNow: args.userNow,
         ),
         settings: data,
       );
@@ -324,6 +342,36 @@ class NewRouter extends RouterBase {
           key: args.key,
           user: args.user,
         ),
+        settings: data,
+      );
+    },
+    DocManageAppointments: (data) {
+      final args = data.getArgs<DocManageAppointmentsArguments>(
+        orElse: () => DocManageAppointmentsArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => DocManageAppointments(
+          key: args.key,
+          user: args.user,
+        ),
+        settings: data,
+      );
+    },
+    StepCount: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => StepCount(),
+        settings: data,
+      );
+    },
+    ChatBot: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ChatBot(),
+        settings: data,
+      );
+    },
+    PharmacyList: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => PharmacyList(),
         settings: data,
       );
     },
@@ -417,7 +465,8 @@ class AddEventPageArguments {
   final Key key;
   final UserModel user;
   final EventModel note;
-  AddEventPageArguments({this.key, this.user, this.note});
+  final UserModel userNow;
+  AddEventPageArguments({this.key, this.user, this.note, this.userNow});
 }
 
 /// EventDetailsPage arguments holder class
@@ -439,4 +488,18 @@ class AboutUsArguments {
   final Key key;
   final UserModel user;
   AboutUsArguments({this.key, this.user});
+}
+
+/// DocManageAppointments arguments holder class
+class DocManageAppointmentsArguments {
+  final Key key;
+  final UserModel user;
+  DocManageAppointmentsArguments({this.key, this.user});
+}
+
+/// ForgetPassword arguments holder class
+class StepCountArguments {
+  final Key key;
+  final UserModel user;
+  StepCountArguments({this.key, this.user});
 }

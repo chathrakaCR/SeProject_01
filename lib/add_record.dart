@@ -6,6 +6,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:se_project02/routes/router.gr.dart';
 import 'package:se_project02/models/userModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+_makingPhoneCall() async {
+  const url = 'tel:0719855825';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 class AddRecord extends StatefulWidget {
   final UserModel user;
@@ -128,11 +138,7 @@ class _AddRecordState extends State<AddRecord> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // bool res = await Auth().addMedi(_medi);
-            // print(res);
-            // setState(() {
-            //   _mediList.add(Medicine());
-            // });
+            _makingPhoneCall();
           },
           tooltip: 'Increment',
           child: Icon(Icons.call),

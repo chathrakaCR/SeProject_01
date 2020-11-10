@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:se_project02/models/userModel.dart';
 import 'package:se_project02/routes/router.gr.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'viewmodels/patient_record_viewmodel.dart';
 
 _buildTextView(String text) {
@@ -10,6 +11,15 @@ _buildTextView(String text) {
     alignment: Alignment.centerLeft,
     child: Text(text, style: TextStyle(fontSize: 25)),
   );
+}
+
+_makingPhoneCall() async {
+  const url = 'tel:0719855825';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
 }
 
 class ViewPrescriptions extends StatefulWidget {
@@ -40,7 +50,7 @@ class _ViewPrescriptionsState extends State<ViewPrescriptions> {
                 },
               ),
               title: Container(
-                alignment: Alignment.center,
+                alignment: Alignment.centerLeft,
                 child: Text(
                   'Patient Profile',
                   style: TextStyle(
@@ -51,6 +61,12 @@ class _ViewPrescriptionsState extends State<ViewPrescriptions> {
               backgroundColor: Colors.green,
             ),
             body: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/background.jpg"),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: ListView(
                 padding:
                     EdgeInsets.only(top: 30, left: 40, right: 40, bottom: 40),
@@ -123,6 +139,12 @@ class _ViewPrescriptionsState extends State<ViewPrescriptions> {
                                                               height: 30.0,
                                                             ),
                                                             _buildTextView(
+                                                                "Duration : " +
+                                                                    e.duration),
+                                                            SizedBox(
+                                                              height: 30.0,
+                                                            ),
+                                                            _buildTextView(
                                                                 "Comments : " +
                                                                     e.comments),
                                                             SizedBox(
@@ -161,7 +183,9 @@ class _ViewPrescriptionsState extends State<ViewPrescriptions> {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
             floatingActionButton: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                _makingPhoneCall();
+              },
               tooltip: 'Increment',
               child: Icon(Icons.phone),
               elevation: 2.0,

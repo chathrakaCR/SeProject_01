@@ -42,6 +42,7 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.yellowAccent[100],
       appBar: AppBar(
         title: Text('New Appointment'),
       ),
@@ -66,16 +67,16 @@ class _CalendarState extends State<Calendar> {
                     initialCalendarFormat: CalendarFormat.week,
                     calendarStyle: CalendarStyle(
                         canEventMarkersOverflow: true,
-                        todayColor: Colors.orange,
-                        selectedColor: Theme.of(context).primaryColor,
+                        todayColor: Colors.blue,
+                        selectedColor: Colors.pink,
                         todayStyle: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
+                            fontSize: 30.0,
                             color: Colors.white)),
                     headerStyle: HeaderStyle(
                       centerHeaderTitle: true,
                       formatButtonDecoration: BoxDecoration(
-                        color: Colors.orange,
+                        color: Colors.pinkAccent[200],
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       formatButtonTextStyle: TextStyle(color: Colors.white),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:se_project02/models/userModel.dart';
 import 'package:se_project02/routes/router.gr.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DocProfileMain extends StatelessWidget {
   final UserModel user;
@@ -20,23 +21,20 @@ class DocProfileMain extends StatelessWidget {
           appBar: AppBar(
             automaticallyImplyLeading: false,
             leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                color: Colors.white,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
-              ),
+              icon: Icon(Icons.arrow_back),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+            ),
             title: Container(
               //alignment: Alignment.center,
               child: Text(
                 '          Doctor Profile',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,fontSize: 25
-                ),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
             ),
-          
             backgroundColor: Colors.green,
             bottom: TabBar(
               tabs: [
@@ -130,7 +128,7 @@ class DocProfileMain extends StatelessWidget {
                             SizedBox(
                               width: 10,
                             ),
-                            Text('Tel No\t\t\t\t: ${user.telnum}')
+                            Text('Tel No\t\t\t\t: ${user.telnum}'),
                           ],
                         ),
                       ),
@@ -249,7 +247,7 @@ class DocProfileMain extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Center(child: FaIcon(FontAwesomeIcons.search)),
+                            Center(child: FaIcon(FontAwesomeIcons.bookMedical)),
                             SizedBox(
                               width: 10.0,
                             ),
@@ -286,7 +284,7 @@ class DocProfileMain extends StatelessWidget {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () => launch("tel://${user.telnum}"),
             tooltip: 'Increment',
             child: Icon(Icons.phone),
             elevation: 2.0,

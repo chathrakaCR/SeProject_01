@@ -3,7 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:se_project02/models/userModel.dart';
 import 'package:se_project02/patient_signup.dart';
 import 'package:se_project02/services/database.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Auth {
   FirebaseAuth _auth;

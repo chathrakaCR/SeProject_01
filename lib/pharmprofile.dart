@@ -5,6 +5,16 @@ import 'package:provider/provider.dart';
 import 'package:se_project02/models/userModel.dart';
 import 'package:se_project02/routes/router.gr.dart';
 import 'package:se_project02/viewmodels/patient_search_viewmodel.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+_makingPhoneCall() async {
+  const url = 'tel:0719855825';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 class PharmProfile extends StatelessWidget {
   final UserModel user;
@@ -89,49 +99,59 @@ class PharmProfile extends StatelessWidget {
           ],
         ),
       ),
-      body: ListView(
-        padding: EdgeInsets.only(top: 100, left: 40, right: 40, bottom: 40),
-        children: [
-          GestureDetector(
-            onTap: () {
-              showSearch(context: context, delegate: Searchdata());
-              //Navigator.of(context).pushNamed('/appointmentsfordoctor');
-            },
-            child: Container(
-              height: 80.0,
-              color: Colors.transparent,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: ListView(
+          padding: EdgeInsets.only(top: 100, left: 40, right: 40, bottom: 40),
+          children: [
+            GestureDetector(
+              onTap: () {
+                showSearch(context: context, delegate: Searchdata());
+                //Navigator.of(context).pushNamed('/appointmentsfordoctor');
+              },
               child: Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 1.5,
-                      style: BorderStyle.solid,
-                    ),
-                    borderRadius: BorderRadius.circular(60.0)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(child: FaIcon(FontAwesomeIcons.search)),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Center(
-                      child: Text(
-                        'Search Prescription',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
+                height: 80.0,
+                color: Colors.transparent,
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 1.5,
+                        style: BorderStyle.solid,
                       ),
-                    )
-                  ],
+                      borderRadius: BorderRadius.circular(60.0)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(child: FaIcon(FontAwesomeIcons.search)),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Center(
+                        child: Text(
+                          'Search Prescription',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _makingPhoneCall();
+        },
         tooltip: 'Increment',
         child: Icon(Icons.phone),
         elevation: 2.0,

@@ -114,7 +114,9 @@ class PharmSignup extends StatelessWidget {
                       child: MaterialButton(
                         onPressed: () async {
                           _user.userType = "Pharmacy";
-                          bool res = await Auth().register(_user, _password).whenComplete(
+                          bool res = await Auth()
+                              .register(_user, _password)
+                              .whenComplete(
                                 () => Fluttertoast.showToast(
                                   msg: _user.name + " Registered Successfully",
                                   toastLength: Toast.LENGTH_SHORT,
@@ -128,7 +130,7 @@ class PharmSignup extends StatelessWidget {
                             Navigator.of(context).pushNamed('/pharmprofile');
                           } else {
                             ExtendedNavigator.of(context)
-                                .push(Routes.InitialRoute);
+                                .push(Routes.adminHome);
                           }
                         },
                         child: Center(

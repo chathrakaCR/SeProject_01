@@ -1,10 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:se_project02/models/userModel.dart';
 import 'package:se_project02/routes/router.gr.dart';
 import 'package:se_project02/viewmodels/patient_search_viewmodel.dart';
+
+//var count=0;
 
 class DocProfile extends StatelessWidget {
   final UserModel user;
@@ -21,6 +24,14 @@ class DocProfile extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.search),
+              color: Colors.white,
+              onPressed: () {
+                showSearch(context: context, delegate: Searchdata());
+              }),
+        ],
       ),
       drawer: Drawer(
         child: Column(
@@ -157,6 +168,94 @@ class DocProfile extends StatelessWidget {
                   ),
                 )),
           ),
+
+          SizedBox(
+            height: 50,
+          ), //************************************************************************************* */
+          GestureDetector(
+            onTap: () {
+              ExtendedNavigator.of(context).push(Routes.docManageAppointments,
+                  arguments: DocManageAppointmentsArguments(user: user));
+              //Navigator.of(context).pushNamed('/appointmentsfordoctor');
+            },
+            child: Container(
+              height: 80.0,
+              color: Colors.transparent,
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1.5,
+                      style: BorderStyle.solid,
+                    ),
+                    borderRadius: BorderRadius.circular(60.0)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(child: FaIcon(FontAwesomeIcons.edit)),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Center(
+                      child: Text(
+                        ' Manage Appointments',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          ///***************************************************************************************** */
+
+          /*
+          Column(
+            changed hereeeeee
+            children: <Widget>[
+              //_button('6.00'),
+              //_button('6.30'),
+              //_button('7.00'),
+              Text('6.00'),
+              Padding(
+                padding: EdgeInsets.all(20),
+                child: LiteRollingSwitch(
+                  value: false,
+                  textOn: "On",
+                  textOff: "Off",
+                  colorOn: Colors.greenAccent,
+                  colorOff: Colors.redAccent,
+                  
+                  iconOff: Icons.alarm_off,
+                  iconOn: Icons.done,
+                  textSize: 18.0,
+                  onChanged: (bool position) async {
+                    //print("The button is $position");
+                    DocumentReference docRef = Firestore.instance
+                        .collection('Users')
+                        .document(user.id);
+                    DocumentSnapshot doc = await docRef.get();
+                    List times = doc.data['slots'];
+                    if (position) {
+                      docRef.updateData({
+                        'slots': FieldValue.arrayUnion(['6.00'])
+                        
+                      });
+                      
+                    }
+                    else{
+                      docRef.updateData({
+                        'slots': FieldValue.arrayRemove(['6.00'])
+                         });
+                         
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),*/
         ],
       ),
 

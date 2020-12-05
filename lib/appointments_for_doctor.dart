@@ -8,7 +8,8 @@ import 'package:se_project02/viewmodels/appoinments_view_model.dart';
 _buildTextView(String text) {
   return Container(
     alignment: Alignment.centerLeft,
-    child: Text(text, style: TextStyle(fontSize: 25)),
+    child:
+        Text(text, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
   );
 }
 
@@ -31,6 +32,12 @@ class AppointmentsForDoctor extends StatelessWidget {
               ),
             ),
             body: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/background.jpg"),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: ListView(
                 padding:
                     EdgeInsets.only(top: 30, left: 40, right: 40, bottom: 40),
@@ -61,69 +68,27 @@ class AppointmentsForDoctor extends StatelessWidget {
                                   top: 30, left: 40, right: 40, bottom: 40),
                               children: model.event.map((e) {
                                 return GestureDetector(
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => Dialog(
-                                              child: Container(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: ListView(
-                                                    shrinkWrap: true,
-                                                    children: <Widget>[
-                                                      Container(
-                                                        padding:
-                                                            EdgeInsets.all(10),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                border:
-                                                                    Border.all(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  width: 3,
-                                                                ),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10)),
-                                                        child: Column(
-                                                          children: [
-                                                            _buildTextView(
-                                                                "Type : " +
-                                                                    e.illness),
-                                                            SizedBox(
-                                                              width: 20.0,
-                                                            ),
-                                                            _buildTextView(
-                                                                "Days : " +
-                                                                    e.timeSlot),
-                                                            SizedBox(
-                                                              width: 20.0,
-                                                            ),
-                                                            _buildTextView(
-                                                                "Date :" +
-                                                                    e.eventDate
-                                                                        .toString()),
-                                                            SizedBox(
-                                                              width: 20.0,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ));
-                                  },
+                                  onTap: () {},
                                   child: Container(
-                                    height: 100,
-                                    child: Column(
-                                      children: [
-                                        //Text(e.date),
-                                        _buildTextView(e.illness),
-                                      ],
+                                    height: 140,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+                                          //Text(e.date),
+                                          _buildTextView(
+                                              "Patient : " + e.patient),
+                                          _buildTextView(
+                                              "Illness : " + e.illness),
+                                          _buildTextView(
+                                              e.eventDate.year.toString() +
+                                                  "-" +
+                                                  e.eventDate.month.toString() +
+                                                  "-" +
+                                                  e.eventDate.day.toString() +
+                                                  " _ " +
+                                                  e.timeSlot),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );
@@ -143,12 +108,12 @@ class AppointmentsForDoctor extends StatelessWidget {
             bottomNavigationBar: BottomNavigationBar(
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'Home',
+                  icon: Icon(Icons.info_sharp),
+                  label: 'About us',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: 'Settings',
+                  icon: Icon(Icons.assignment),
+                  label: 'news',
                 ),
               ],
               selectedItemColor: Colors.green[900],
@@ -156,10 +121,10 @@ class AppointmentsForDoctor extends StatelessWidget {
               onTap: (value) {
                 switch (value) {
                   case 0:
-                    ExtendedNavigator.of(context).push(Routes.InitialRoute);
+                    ExtendedNavigator.of(context).push(Routes.aboutUs);
                     break;
                   case 1:
-                    ExtendedNavigator.of(context).push(Routes.InitialRoute);
+                    ExtendedNavigator.of(context).push(Routes.homePage);
                     break;
                   default:
                 }

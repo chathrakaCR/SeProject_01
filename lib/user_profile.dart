@@ -12,7 +12,8 @@ import 'package:url_launcher/url_launcher.dart';
 _buildTextView(String text) {
   return Container(
     alignment: Alignment.centerLeft,
-    child: Text(text, style: TextStyle(fontSize: 25)),
+    child:
+        Text(text, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
   );
 }
 
@@ -420,21 +421,35 @@ class _UserProfileState extends State<UserProfile> {
                                                                         25.0,
                                                                   ),
                                                                   _buildTextView(
-                                                                      "Medicines : " +
+                                                                      "Days since illness: " +
+                                                                          e.daysSince),
+                                                                  SizedBox(
+                                                                    height:
+                                                                        25.0,
+                                                                  ),
+                                                                  _buildTextView(
+                                                                      "Allergies: " +
+                                                                          e.allergies),
+                                                                  SizedBox(
+                                                                    height:
+                                                                        25.0,
+                                                                  ),
+                                                                  _buildTextView(
+                                                                      "Medicine : " +
                                                                           e.medicines),
                                                                   SizedBox(
                                                                     height:
                                                                         25.0,
                                                                   ),
                                                                   _buildTextView(
-                                                                      "Duration : " +
+                                                                      "For How many days : " +
                                                                           e.duration),
                                                                   SizedBox(
                                                                     height:
                                                                         25.0,
                                                                   ),
                                                                   _buildTextView(
-                                                                      "Tests : " +
+                                                                      "Tests to Do : " +
                                                                           e.testsTo),
                                                                   SizedBox(
                                                                     height:

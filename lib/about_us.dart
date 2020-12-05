@@ -16,17 +16,18 @@ _buildTextView(String text) {
           SizedBox(
             width: 10,
           ),
-          Text(text, style: TextStyle(fontSize: 20))
+          Text(text,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
         ],
       ));
 }
 
 final List<String> imgList = [
-  'assets/admin.jpeg',
-  'assets/admin.jpeg',
-  'assets/admin.jpeg',
-  'assets/admin.jpeg',
-  'assets/admin.jpeg',
+  'assets/1_med.jpg',
+  'assets/2_med.jpg',
+  'assets/3_med.jpg',
+  'assets/4_med.jpg',
+  'assets/1_med.jpg',
 ];
 
 class AboutUs extends StatelessWidget {
@@ -92,9 +93,12 @@ class AboutUs extends StatelessWidget {
                         options: CarouselOptions(),
                         items: imgList
                             .map((item) => Container(
+                                  padding: EdgeInsets.only(right: 3, left: 3),
                                   child: Center(
                                       child: Image.asset(item,
-                                          fit: BoxFit.cover, width: 800)),
+                                          height: 200,
+                                          fit: BoxFit.cover,
+                                          width: 800)),
                                 ))
                             .toList(),
                       )),

@@ -6,7 +6,6 @@ import 'package:se_project02/models/userModel.dart';
 import 'package:se_project02/routes/router.gr.dart';
 import 'package:se_project02/services/auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:se_project02/viewmodels/pharmacy_search_viewmodel.dart';
 
 void main() {
   runApp(MyApp());
@@ -168,34 +167,30 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 20.0,
                 ),
                 MaterialButton(
-                  onPressed: () {
-                    //ExtendedNavigator.of(context).push(Routes.pharmacyList);
+                  onPressed: () async {
+                    UserModel user = await Auth().googleSignIn();
+                    Get.put(user);
+                    print(user);
+                    switch (user.userType) {
+                      case 'Patient':
+                        ExtendedNavigator.of(context).push(Routes.userProfile,
+                            arguments: UserProfileArguments(user: user));
+                        break;
+                      case 'Doctor':
+                        ExtendedNavigator.of(context).push(Routes.docProfile,
+                            arguments: DocProfileArguments(user: user));
+                        break;
+                      case 'Admin':
+                        ExtendedNavigator.of(context).push(Routes.adminHome,
+                            arguments: AdminHomeArguments(user: user));
+                        break;
+                      case 'Pharmacy':
+                        ExtendedNavigator.of(context).push(Routes.pharmProfile,
+                            arguments: PharmProfileArguments(user: user));
+                        break;
+                      default:
+                    }
                   },
-                  //async {
-                  //
-                  //   UserModel user = await Auth().googleSignIn();
-                  //   Get.put(user);
-                  //   print(user);
-                  //   switch (user.userType) {
-                  //     case 'Patient':
-                  //       ExtendedNavigator.of(context).push(Routes.userProfile,
-                  //           arguments: UserProfileArguments(user: user));
-                  //       break;
-                  //     case 'Doctor':
-                  //       ExtendedNavigator.of(context).push(Routes.docProfile,
-                  //           arguments: DocProfileArguments(user: user));
-                  //       break;
-                  //     case 'Admin':
-                  //       ExtendedNavigator.of(context).push(Routes.adminHome,
-                  //           arguments: AdminHomeArguments(user: user));
-                  //       break;
-                  //     case 'Pharmacy':
-                  //       ExtendedNavigator.of(context).push(Routes.pharmProfile,
-                  //           arguments: PharmProfileArguments(user: user));
-                  //       break;
-                  //     default:
-                  //   }
-                  // },
                   child: Container(
                     height: 40.0,
                     color: Colors.transparent,

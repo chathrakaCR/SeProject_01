@@ -209,7 +209,9 @@ class _AddEventPageState extends State<AddEventPage> {
                                     });
                                   } else {
                                     await eventDBS.createItem(EventModel(
+                                      patient:userNow.name,
                                         id: userNow.id,
+                                        doctor: widget.user.name,
                                         doc_id: widget.user.id,
                                         illness: _illnessDescription.text,
                                         timeSlot: selectedTime,

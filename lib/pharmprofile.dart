@@ -51,8 +51,13 @@ class PharmProfile extends StatelessWidget {
                 child: Column(
                   children: [
                     Container(
-                      height: 100,
-                      width: 100,
+                      height: 150,
+                      width: 150,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: AssetImage("assets/pharm.jpg"),
+                              fit: BoxFit.fill)),
                       margin: EdgeInsets.only(top: 10),
                     ),
                     SizedBox(

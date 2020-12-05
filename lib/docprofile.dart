@@ -24,14 +24,6 @@ class DocProfile extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.search),
-              color: Colors.white,
-              onPressed: () {
-                showSearch(context: context, delegate: Searchdata());
-              }),
-        ],
       ),
       drawer: Drawer(
         child: Column(
@@ -44,8 +36,13 @@ class DocProfile extends StatelessWidget {
                 child: Column(
                   children: [
                     Container(
-                      height: 100,
-                      width: 100,
+                      height: 150,
+                      width: 150,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: AssetImage("assets/doc.png"),
+                              fit: BoxFit.fill)),
                       margin: EdgeInsets.only(top: 10),
                     ),
                     SizedBox(
@@ -93,53 +90,23 @@ class DocProfile extends StatelessWidget {
         ),
       ),
       //below
-      body: ListView(
-        padding: EdgeInsets.only(top: 100, left: 40, right: 40, bottom: 40),
-        children: [
-          GestureDetector(
-            onTap: () {
-              ExtendedNavigator.of(context).push(Routes.appointmentsForDoctor,
-                  arguments: AppointmentsForDoctorArguments(user: user));
-              //Navigator.of(context).pushNamed('/appointmentsfordoctor');
-            },
-            child: Container(
-              height: 80.0,
-              color: Colors.transparent,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: ListView(
+          padding: EdgeInsets.only(top: 100, left: 40, right: 40, bottom: 40),
+          children: [
+            GestureDetector(
+              onTap: () {
+                ExtendedNavigator.of(context).push(Routes.appointmentsForDoctor,
+                    arguments: AppointmentsForDoctorArguments(user: user));
+                //Navigator.of(context).pushNamed('/appointmentsfordoctor');
+              },
               child: Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 1.5,
-                      style: BorderStyle.solid,
-                    ),
-                    borderRadius: BorderRadius.circular(60.0)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(child: FaIcon(FontAwesomeIcons.list)),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Center(
-                      child: Text(
-                        ' My Appointments',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 50,
-          ),
-          GestureDetector(
-            onTap: () {
-              showSearch(context: context, delegate: Searchdata());
-            },
-            child: Container(
                 height: 80.0,
                 color: Colors.transparent,
                 child: Container(
@@ -153,110 +120,148 @@ class DocProfile extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Center(child: FaIcon(FontAwesomeIcons.search)),
+                      Center(child: FaIcon(FontAwesomeIcons.list)),
                       SizedBox(
                         width: 10.0,
                       ),
                       Center(
                         child: Text(
-                          ' Search Patients',
+                          ' My Appointments',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                       )
                     ],
                   ),
-                )),
-          ),
-
-          SizedBox(
-            height: 50,
-          ), //************************************************************************************* */
-          GestureDetector(
-            onTap: () {
-              ExtendedNavigator.of(context).push(Routes.docManageAppointments,
-                  arguments: DocManageAppointmentsArguments(user: user));
-              //Navigator.of(context).pushNamed('/appointmentsfordoctor');
-            },
-            child: Container(
-              height: 80.0,
-              color: Colors.transparent,
-              child: Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 1.5,
-                      style: BorderStyle.solid,
-                    ),
-                    borderRadius: BorderRadius.circular(60.0)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(child: FaIcon(FontAwesomeIcons.edit)),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Center(
-                      child: Text(
-                        ' Manage Appointments',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                    )
-                  ],
                 ),
               ),
             ),
-          ),
+            SizedBox(
+              height: 50,
+            ),
+            GestureDetector(
+              onTap: () {
+                showSearch(context: context, delegate: Searchdata());
+              },
+              child: Container(
+                  height: 80.0,
+                  color: Colors.transparent,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 1.5,
+                          style: BorderStyle.solid,
+                        ),
+                        borderRadius: BorderRadius.circular(60.0)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(child: FaIcon(FontAwesomeIcons.search)),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Center(
+                          child: Text(
+                            ' Search Patients',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                        )
+                      ],
+                    ),
+                  )),
+            ),
 
-          ///***************************************************************************************** */
-
-          /*
-          Column(
-            changed hereeeeee
-            children: <Widget>[
-              //_button('6.00'),
-              //_button('6.30'),
-              //_button('7.00'),
-              Text('6.00'),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: LiteRollingSwitch(
-                  value: false,
-                  textOn: "On",
-                  textOff: "Off",
-                  colorOn: Colors.greenAccent,
-                  colorOff: Colors.redAccent,
-                  
-                  iconOff: Icons.alarm_off,
-                  iconOn: Icons.done,
-                  textSize: 18.0,
-                  onChanged: (bool position) async {
-                    //print("The button is $position");
-                    DocumentReference docRef = Firestore.instance
-                        .collection('Users')
-                        .document(user.id);
-                    DocumentSnapshot doc = await docRef.get();
-                    List times = doc.data['slots'];
-                    if (position) {
-                      docRef.updateData({
-                        'slots': FieldValue.arrayUnion(['6.00'])
-                        
-                      });
-                      
-                    }
-                    else{
-                      docRef.updateData({
-                        'slots': FieldValue.arrayRemove(['6.00'])
-                         });
-                         
-                    }
-                  },
+            SizedBox(
+              height: 50,
+            ), //************************************************************************************* */
+            GestureDetector(
+              onTap: () {
+                ExtendedNavigator.of(context).push(Routes.docManageAppointments,
+                    arguments: DocManageAppointmentsArguments(user: user));
+                //Navigator.of(context).pushNamed('/appointmentsfordoctor');
+              },
+              child: Container(
+                height: 80.0,
+                color: Colors.transparent,
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 1.5,
+                        style: BorderStyle.solid,
+                      ),
+                      borderRadius: BorderRadius.circular(60.0)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(child: FaIcon(FontAwesomeIcons.edit)),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Center(
+                        child: Text(
+                          ' Manage Appointments',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ],
-          ),*/
-        ],
+            ),
+
+            ///***************************************************************************************** */
+
+            /*
+            Column(
+              changed hereeeeee
+              children: <Widget>[
+                //_button('6.00'),
+                //_button('6.30'),
+                //_button('7.00'),
+                Text('6.00'),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: LiteRollingSwitch(
+                    value: false,
+                    textOn: "On",
+                    textOff: "Off",
+                    colorOn: Colors.greenAccent,
+                    colorOff: Colors.redAccent,
+                    
+                    iconOff: Icons.alarm_off,
+                    iconOn: Icons.done,
+                    textSize: 18.0,
+                    onChanged: (bool position) async {
+                      //print("The button is $position");
+                      DocumentReference docRef = Firestore.instance
+                          .collection('Users')
+                          .document(user.id);
+                      DocumentSnapshot doc = await docRef.get();
+                      List times = doc.data['slots'];
+                      if (position) {
+                        docRef.updateData({
+                          'slots': FieldValue.arrayUnion(['6.00'])
+                          
+                        });
+                        
+                      }
+                      else{
+                        docRef.updateData({
+                          'slots': FieldValue.arrayRemove(['6.00'])
+                           });
+                           
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),*/
+          ],
+        ),
       ),
 
       //above

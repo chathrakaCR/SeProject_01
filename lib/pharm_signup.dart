@@ -35,7 +35,7 @@ class PharmSignup extends StatelessWidget {
                   TextField(
                     onChanged: (value) => {
                       _user.name = value,
-                      _user.phamName = value.trim().toLowerCase(),
+                      _user.userName = value.trim().toLowerCase()
                     },
                     decoration: InputDecoration(
                         labelText: 'NAME',
@@ -114,17 +114,7 @@ class PharmSignup extends StatelessWidget {
                       child: MaterialButton(
                         onPressed: () async {
                           _user.userType = "Pharmacy";
-                          bool res = await Auth()
-                              .register(_user, _password)
-                              .whenComplete(
-                                () => Fluttertoast.showToast(
-                                  msg: _user.name + " Registered Successfully",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  textColor: Colors.black,
-                                  fontSize: 16,
-                                  backgroundColor: Colors.grey[200],
-                                ),
-                              );
+                          bool res = await Auth().register(_user, _password);
                           print(res);
                           if (_user.userType == 'Doctor') {
                             Navigator.of(context).pushNamed('/pharmprofile');

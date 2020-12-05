@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:se_project02/models/userModel.dart';
-import 'package:se_project02/services/auth.dart';
 import 'package:se_project02/routes/router.gr.dart';
 import 'viewmodels/patient_record_viewmodel.dart';
 
 _buildTextView(String text) {
   return Container(
     alignment: Alignment.centerLeft,
-    child: Text(text, style: TextStyle(fontSize: 25)),
+    child:
+        Text(text, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
   );
 }
 
@@ -55,7 +55,7 @@ class _UserDocViewState extends State<UserDocView> {
                 },
               ),
               title: Container(
-                //alignment: Alignment.center,
+                alignment: Alignment.centerLeft,
                 child: Text(
                   '          Patient Profile',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
@@ -365,6 +365,20 @@ class _UserDocViewState extends State<UserDocView> {
                                                                         25.0,
                                                                   ),
                                                                   _buildTextView(
+                                                                      "Days since illness: " +
+                                                                          e.daysSince),
+                                                                  SizedBox(
+                                                                    height:
+                                                                        25.0,
+                                                                  ),
+                                                                  _buildTextView(
+                                                                      "Allergies: " +
+                                                                          e.allergies),
+                                                                  SizedBox(
+                                                                    height:
+                                                                        25.0,
+                                                                  ),
+                                                                  _buildTextView(
                                                                       "Medicine : " +
                                                                           e.medicines),
                                                                   SizedBox(
@@ -372,7 +386,7 @@ class _UserDocViewState extends State<UserDocView> {
                                                                         25.0,
                                                                   ),
                                                                   _buildTextView(
-                                                                      "Duration : " +
+                                                                      "For How many days : " +
                                                                           e.duration),
                                                                   SizedBox(
                                                                     height:
@@ -437,7 +451,7 @@ class _UserDocViewState extends State<UserDocView> {
                   label: 'About us',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
+                  icon: Icon(Icons.assignment),
                   label: 'news',
                 ),
               ],

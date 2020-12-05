@@ -29,7 +29,7 @@ class DocProfileMain extends StatelessWidget {
               },
             ),
             title: Container(
-              //alignment: Alignment.center,
+              alignment: Alignment.centerLeft,
               child: Text(
                 '          Doctor Profile',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
@@ -49,237 +49,246 @@ class DocProfileMain extends StatelessWidget {
               ],
             ),
           ),
-          body: TabBarView(
-            children: [
-              Container(
-                child: ListView(
-                  padding: EdgeInsets.all(40),
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/background.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: TabBarView(
+              children: [
+                Container(
+                  child: ListView(
+                    padding: EdgeInsets.all(40),
+                    children: [
+                      Container(
+                          child: Container(
+                        height: 30,
+                        color: Colors.transparent,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1.5,
+                                style: BorderStyle.solid,
+                              ),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.person),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text('Name\t\t\t\t: ${user.name}')
+                            ],
+                          ),
+                        ),
+                      )),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                          child: Container(
+                        height: 30,
+                        color: Colors.transparent,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1.5,
+                                style: BorderStyle.solid,
+                              ),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.alternate_email_rounded),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text('E-Mail\t\t\t\t: ${user.email}')
+                            ],
+                          ),
+                        ),
+                      )),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                          child: Container(
+                        height: 30,
+                        color: Colors.transparent,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1.5,
+                                style: BorderStyle.solid,
+                              ),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.phone),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text('Tel No\t\t\t\t: ${user.telnum}'),
+                            ],
+                          ),
+                        ),
+                      )),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                          child: Container(
+                        height: 30,
+                        color: Colors.transparent,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1.5,
+                                style: BorderStyle.solid,
+                              ),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.mail),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text('Address\t: ${user.address}')
+                            ],
+                          ),
+                        ),
+                      )),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                          child: Container(
+                        height: 30,
+                        color: Colors.transparent,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1.5,
+                                style: BorderStyle.solid,
+                              ),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.person),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text('NIC\t\t\t\t\t\t\t\t\t: ${user.nic}')
+                            ],
+                          ),
+                        ),
+                      )),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                          child: Container(
+                        height: 30,
+                        color: Colors.transparent,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1.5,
+                                style: BorderStyle.solid,
+                              ),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.group),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                  'Gender\t\t\t: ${user.gender == Gender.Male ? 'Male' : 'Female'}')
+                            ],
+                          ),
+                        ),
+                      ))
+                    ],
+                  ),
+                ),
+                ListView(
+                  padding: EdgeInsets.only(
+                      top: 100, left: 40, right: 40, bottom: 40),
                   children: [
-                    Container(
-                        child: Container(
-                      height: 30,
-                      color: Colors.transparent,
+                    MaterialButton(
+                      onPressed: () {
+                        if (type == "patient")
+                          ExtendedNavigator.of(context).push(Routes.calendar,
+                              arguments: CalendarArguments(user: user));
+                        else
+                          ExtendedNavigator.of(context).push(
+                              Routes.appointmentsForDoctor,
+                              arguments:
+                                  AppointmentsForDoctorArguments(user: user));
+                      },
                       child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 1.5,
-                              style: BorderStyle.solid,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.person),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text('Name\t\t\t\t: ${user.name}')
-                          ],
+                        height: 80.0,
+                        color: Colors.transparent,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1.5,
+                                style: BorderStyle.solid,
+                              ),
+                              borderRadius: BorderRadius.circular(60.0)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                  child: FaIcon(FontAwesomeIcons.bookMedical)),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              if (type == "patient")
+                                Center(
+                                  child: Text(
+                                    ' Make an Appointment',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                )
+                              else
+                                Center(
+                                  child: Text(
+                                    ' Current Appointments',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                )
+                            ],
+                          ),
                         ),
                       ),
-                    )),
-                    SizedBox(
-                      height: 20,
                     ),
-                    Container(
-                        child: Container(
-                      height: 30,
-                      color: Colors.transparent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 1.5,
-                              style: BorderStyle.solid,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.alternate_email_rounded),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text('E-Mail\t\t\t\t: ${user.email}')
-                          ],
-                        ),
-                      ),
-                    )),
                     SizedBox(
-                      height: 20,
+                      height: 50,
                     ),
-                    Container(
-                        child: Container(
-                      height: 30,
-                      color: Colors.transparent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 1.5,
-                              style: BorderStyle.solid,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.phone),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text('Tel No\t\t\t\t: ${user.telnum}'),
-                          ],
-                        ),
-                      ),
-                    )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                        child: Container(
-                      height: 30,
-                      color: Colors.transparent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 1.5,
-                              style: BorderStyle.solid,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.mail),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text('Address\t: ${user.address}')
-                          ],
-                        ),
-                      ),
-                    )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                        child: Container(
-                      height: 30,
-                      color: Colors.transparent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 1.5,
-                              style: BorderStyle.solid,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.person),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text('NIC\t\t\t\t\t\t\t\t\t: ${user.nic}')
-                          ],
-                        ),
-                      ),
-                    )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                        child: Container(
-                      height: 30,
-                      color: Colors.transparent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 1.5,
-                              style: BorderStyle.solid,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.group),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                                'Gender\t\t\t: ${user.gender == Gender.Male ? 'Male' : 'Female'}')
-                          ],
-                        ),
-                      ),
-                    ))
                   ],
                 ),
-              ),
-              ListView(
-                padding:
-                    EdgeInsets.only(top: 100, left: 40, right: 40, bottom: 40),
-                children: [
-                  MaterialButton(
-                    onPressed: () {
-                      if (type == "patient")
-                        ExtendedNavigator.of(context).push(Routes.calendar,
-                            arguments: CalendarArguments(user: user));
-                      else
-                        ExtendedNavigator.of(context).push(
-                            Routes.appointmentsForDoctor,
-                            arguments:
-                                AppointmentsForDoctorArguments(user: user));
-                    },
-                    child: Container(
-                      height: 80.0,
-                      color: Colors.transparent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 1.5,
-                              style: BorderStyle.solid,
-                            ),
-                            borderRadius: BorderRadius.circular(60.0)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Center(child: FaIcon(FontAwesomeIcons.bookMedical)),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            if (type == "patient")
-                              Center(
-                                child: Text(
-                                  ' Make an Appointment',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                              )
-                            else
-                              Center(
-                                child: Text(
-                                  ' Current Appointments',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                              )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,

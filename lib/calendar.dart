@@ -46,87 +46,96 @@ class _CalendarState extends State<Calendar> {
       appBar: AppBar(
         title: Text('New Appointment'),
       ),
-      body: StreamBuilder<List<EventModel>>(
-          stream: eventDBS.streamList(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<EventModel> allEvents = snapshot.data;
-              if (allEvents.isNotEmpty) {
-                _events = _groupEvents(allEvents);
-              } else {
-                _events = {};
-                _selectedEvents = [];
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: StreamBuilder<List<EventModel>>(
+            stream: eventDBS.streamList(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<EventModel> allEvents = snapshot.data;
+                if (allEvents.isNotEmpty) {
+                  _events = _groupEvents(allEvents);
+                } else {
+                  _events = {};
+                  _selectedEvents = [];
+                }
               }
-            }
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  TableCalendar(
-                    events: _events,
-                    initialCalendarFormat: CalendarFormat.week,
-                    calendarStyle: CalendarStyle(
-                        canEventMarkersOverflow: true,
-                        todayColor: Colors.blue,
-                        selectedColor: Colors.pink,
-                        todayStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30.0,
-                            color: Colors.white)),
-                    headerStyle: HeaderStyle(
-                      centerHeaderTitle: true,
-                      formatButtonDecoration: BoxDecoration(
-                        color: Colors.pinkAccent[200],
-                        borderRadius: BorderRadius.circular(20.0),
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    TableCalendar(
+                      events: _events,
+                      initialCalendarFormat: CalendarFormat.week,
+                      calendarStyle: CalendarStyle(
+                          canEventMarkersOverflow: true,
+                          todayColor: Colors.blue,
+                          selectedColor: Colors.pink,
+                          todayStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30.0,
+                              color: Colors.white)),
+                      headerStyle: HeaderStyle(
+                        centerHeaderTitle: true,
+                        formatButtonDecoration: BoxDecoration(
+                          color: Colors.pinkAccent[200],
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        formatButtonTextStyle: TextStyle(color: Colors.white),
+                        formatButtonShowsNext: false,
                       ),
-                      formatButtonTextStyle: TextStyle(color: Colors.white),
-                      formatButtonShowsNext: false,
+                      startingDayOfWeek: StartingDayOfWeek.monday,
+                      onDaySelected: (date, events, _) {
+                        setState(() {
+                          _selectedEvents = events;
+                        });
+                      },
+                      builders: CalendarBuilders(
+                        selectedDayBuilder: (context, date, events) =>
+                            Container(
+                                margin: const EdgeInsets.all(4.0),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    borderRadius: BorderRadius.circular(10.0)),
+                                child: Text(
+                                  date.day.toString(),
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                        todayDayBuilder: (context, date, events) => Container(
+                            margin: const EdgeInsets.all(4.0),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: Colors.orange,
+                                borderRadius: BorderRadius.circular(10.0)),
+                            child: Text(
+                              date.day.toString(),
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ),
+                      calendarController: _controller,
                     ),
-                    startingDayOfWeek: StartingDayOfWeek.monday,
-                    onDaySelected: (date, events, _) {
-                      setState(() {
-                        _selectedEvents = events;
-                      });
-                    },
-                    builders: CalendarBuilders(
-                      selectedDayBuilder: (context, date, events) => Container(
-                          margin: const EdgeInsets.all(4.0),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.circular(10.0)),
-                          child: Text(
-                            date.day.toString(),
-                            style: TextStyle(color: Colors.white),
-                          )),
-                      todayDayBuilder: (context, date, events) => Container(
-                          margin: const EdgeInsets.all(4.0),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Colors.orange,
-                              borderRadius: BorderRadius.circular(10.0)),
-                          child: Text(
-                            date.day.toString(),
-                            style: TextStyle(color: Colors.white),
-                          )),
-                    ),
-                    calendarController: _controller,
-                  ),
-                  ..._selectedEvents.map((event) => ListTile(
-                        title: Text(event.illness),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => EventDetailsPage(
-                                        event: event,
-                                      )));
-                        },
-                      )),
-                ],
-              ),
-            );
-          }),
+                    ..._selectedEvents.map((event) => ListTile(
+                          title: Text(event.illness),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => EventDetailsPage(
+                                          event: event,
+                                        )));
+                          },
+                        )),
+                  ],
+                ),
+              );
+            }),
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => ExtendedNavigator.of(context).push(Routes.addEventPage,

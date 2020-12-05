@@ -36,6 +36,10 @@ class _ChatBotState extends State<ChatBot> {
         backgroundColor: Colors.green,
       ),
       body: Container(
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+                image: AssetImage("assets/background.jpg"), fit: BoxFit.cover)),
         child: Column(
           children: <Widget>[
             Flexible(
